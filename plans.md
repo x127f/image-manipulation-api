@@ -13,6 +13,8 @@
 - express.js
 - hashbased auth (url-param)
 
+### endpoints:
+
 | endpoints:     | params:                         |
 | -------------- | ------------------------------- |
 | /setup/welcome | user, count, avatar, background |
