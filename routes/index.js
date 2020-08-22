@@ -11,6 +11,8 @@ async function main(app) {
 			return routes.map(async (file) => {
 				var router = express.Router();
 				var route = file.split(".")[0];
+				router.app = app;
+				router.path = route;
 
 				var file = require(`${__dirname}/${category}/${file}`);
 				try {
