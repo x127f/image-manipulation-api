@@ -4,9 +4,13 @@ const nodeFetch = require("node-fetch");
 const { secret } = require("./config.json");
 const { param } = require("express/lib/router");
 
-async function fetch(path, params) {
+async function generate(path, params, opts = { url: "https://cdn.trenite.tk" }) {
 	var query = hash(params);
-	return nodeFetch(`http://localhost:3000${path}?${query}`);
+	return nodeFetch(`${opts.url}${path}?${query}`);
+}
+
+async function fetch(...args) {
+	return nodeFetch(generate.apply(this, args));
 }
 
 function hash(params) {
@@ -28,4 +32,4 @@ function hash(params) {
 	return query;
 }
 
-module.exports = { fetch, hash };
+module.exports = { fetch, hash, generate };
