@@ -18,12 +18,12 @@
 
 ### endpoints:
 
-| endpoints:     | params:                                                                    |
-| -------------- | -------------------------------------------------------------------------- |
-| /setup/welcome | user_name, guild_name, guild_avatar, member_count, user_avatar, background |
-| /setup/leave   | user_name, guild_name, guild_avatar, member_count, user_avatar, background |
-| /fortnite/shop | items                                                                      |
-| /economy/slots | items                                                                      |
+| endpoints:     | docs |
+| -------------- | ---- |
+| /setup/welcome |      |
+| /setup/leave   |      |
+| /fortnite/shop |      |
+| /economy/slots |      |
 
 ### Auth:
 
