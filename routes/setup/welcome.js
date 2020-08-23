@@ -2,21 +2,13 @@ const fontList = require("font-list");
 const { createCanvas, loadImage, Image } = require("canvas");
 const fs = require("fs");
 
-const loadFile = (file) => {
-	return new Promise(async (res, rej) => {
-		const img = new Image();
-		img.onload = () => res(img);
-		img.onerror = rej;
-		img.src = await fs.promises.readFile(file, { encoding: "binary" });
-	});
-};
-
 module.exports = (app) => {
-	app.get("/welcome", async (req, res) => {
+	app.get("/", async (req, res) => {
 		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background } = req.query;
 		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background) throw "query invalid";
 
-		const back = await loadFile(__dirname + "/../../assets/backgrounds/background.png");
+		const back = new Image();
+		back.src = __dirname + "/../../assets/backgrounds/background.png";
 		const canvas = createCanvas(1000, 500);
 		const ctx = canvas.getContext("2d");
 

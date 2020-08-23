@@ -24,3 +24,4 @@
 | /setup/leave   | user_name, guild_name, guild_avatar, member_count, user_avatar, background |
 | /fortnite/shop | items                                                        |
 
+### Auth:
