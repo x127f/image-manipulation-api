@@ -18,7 +18,6 @@ function hash(params) {
 		try {
 			if (typeof params[key] === "number") params[key] = params[key].toString();
 			if (typeof params[key] === "object") params[key] = JSON.stringify(params[key]);
-			if (typeof params[key] === "string") params[key] = encodeURIComponent(params[key]);
 		} catch (error) {}
 	});
 	const hash = crypto.createHmac("sha256", secret).update(JSON.stringify(params)).digest("hex");
@@ -26,7 +25,7 @@ function hash(params) {
 
 	var query = Object.entries(params)
 		.map((x) => {
-			return `${x[0]}=${x[1]}`;
+			return `${x[0]}=${encodeURIComponent(x[1])}`;
 		})
 		.join("&");
 	return query;

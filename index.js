@@ -4,10 +4,10 @@ const fs = require("fs");
 // const { registerFont } = require("canvas");
 
 require("express-async-errors");
-const app = express();
-const port = 3000;
-const routes = require("./routes");
 const config = require("./config.json");
+const app = express();
+const port = config.port;
+const routes = require("./routes");
 const errorHandler = require("./routes/error");
 
 app.use((req, res, next) => {
