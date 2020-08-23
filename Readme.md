@@ -18,9 +18,9 @@
 
 ### endpoints:
 
-| endpoints:     | params:                         |
-| -------------- | ------------------------------- |
-| /setup/welcome | user, count, avatar, background |
-| /setup/leave   | user, count, avatar, background |
-| /fortnite/shop | items                           |
+| endpoints:     | params:                                                      |
+| -------------- | ------------------------------------------------------------ |
+| /setup/welcome | user_name, guild_name, guild_avatar, member_count, user_avatar, background |
+| /setup/leave   | user_name, guild_name, guild_avatar, member_count, user_avatar, background |
+| /fortnite/shop | items                                                        |
 

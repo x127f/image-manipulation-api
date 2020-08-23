@@ -20,6 +20,7 @@
 	"homepage": "https://github.com/Trenite/image-manipulation-api#readme",
 	"dependencies": {
 		"canvas": "^2.6.1",
-		"express": "^4.17.1"
+		"express": "^4.17.1",
+		"font-list": "^1.2.11"
 	}
 }
