@@ -8,7 +8,7 @@ const app = express();
 const port = 3000;
 const routes = require("./routes");
 const config = require("./config.json");
-// registerFont(__dirname + "/assets/whitney.ttf", { family: "whitney" });
+const errorHandler = require("./routes/error");
 
 app.use((req, res, next) => {
 	if (!config.production) return next();
@@ -26,19 +26,8 @@ app.use((req, res, next) => {
 
 routes(app);
 
+app.use(errorHandler);
+
 app.listen(port, () => {
 	console.log(`Example app listening at http://localhost:${port}`);
-});
-
-app.use((err, req, res, next) => {
-	if (err)
-		if (err.toString() == "404") {
-			return res.sendFile(__dirname + "/assets/404.png");
-		} else {
-			return res.status(400).send({
-				err: err.toString() + ", for further help, view our repo: https://github.com/Trenite/image-manipulation-api",
-				success: false,
-				status: 400,
-			});
-		}
 });
