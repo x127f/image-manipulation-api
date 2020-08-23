@@ -21,6 +21,7 @@
 	"dependencies": {
 		"canvas": "^2.6.1",
 		"express": "^4.17.1",
-		"font-list": "^1.2.11"
+		"font-list": "^1.2.11",
+		"express-async-errors": "^3.1.1"
 	}
 }
