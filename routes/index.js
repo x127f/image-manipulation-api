@@ -19,7 +19,7 @@ async function main(app) {
 					await file(router);
 					console.log(`route loaded: ${category}/${route}`);
 				} catch (error) {
-					console.error(`error while loading route: ${category}/${route}`);
+					console.error(`error while loading route: ${category}/${route}`, error);
 				}
 
 				app.use(`/${category}/${route}`, router);
