@@ -8,7 +8,6 @@ const app = express();
 const port = 3000;
 const routes = require("./routes");
 
-
 // app.use((req, res, next) => {
 // 	if (!req.query || !Object.keys(req.query).length || !req.query.hash) throw "No query/hash specified";
 // 	var payload = { ...req.query };
@@ -31,7 +30,7 @@ app.listen(port, () => {
 app.use((err, req, res, next) => {
 	if (err)
 		if (err.toString() == "404") {
-			return res.sendFile(__dirname + "/assets/404.jpg");
+			return res.sendFile(__dirname + "/assets/404.png");
 		} else {
 			return res.status(400).send({
 				err: err.toString() + ", for further help, view our repo: https://github.com/Trenite/image-manipulation-api",
