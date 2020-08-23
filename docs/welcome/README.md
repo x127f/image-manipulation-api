@@ -32,5 +32,7 @@ http://cdn.trenite.tk/setup/welcome
 &status=dnd
 ```
 
-## Example - png
+## Examples 
+- all params from above
 <img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/welcome/welcome.png"/>
+
