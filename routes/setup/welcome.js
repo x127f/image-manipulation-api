@@ -1,14 +1,15 @@
 const fontList = require("font-list");
 const { createCanvas, loadImage, Image, registerFont } = require("canvas");
 const fs = require("fs");
-const { createContext } = require("vm");
 
 registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium" });
 
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
 		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status } = req.query;
-		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background) throw "query invalid";
+		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background || !status) {
+			throw "query invalid";
+		}
 
 		const back = new Image();
 		switch (background) {
@@ -33,6 +34,8 @@ module.exports = (app) => {
 			case "idle":
 				style = "#faa61a";
 				break;
+			case "offline":
+				style = "#747f8d";
 		}
 
 		const canvas = createCanvas(1000, 500);
@@ -63,17 +66,53 @@ module.exports = (app) => {
 		ctx.drawImage(avatar, x, y, avatarWidth, avatarWidth);
 		ctx.restore();
 
-		ctx.beginPath();
-		ctx.arc(557, 309, 40, 0, Math.PI * 2, true);
-		ctx.closePath();
-		ctx.fillStyle = "#2c2f33";
-		ctx.fill();
+		if (status != "none") {
+			if (background == "discord") {
+				// draw grey background circle below status indicator
+				ctx.beginPath();
+				ctx.arc(557, 309, 40, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fillStyle = "#2c2f33";
+				ctx.fill();
+			}
 
-		ctx.beginPath();
-		ctx.arc(557, 309, 25, 0, Math.PI * 2, true);
-		ctx.closePath();
-		ctx.fillStyle = style;
-		ctx.fill();
+			//status
+			ctx.beginPath();
+			ctx.arc(557, 309, 25, 0, Math.PI * 2, true);
+			ctx.closePath();
+			ctx.fillStyle = style;
+			ctx.fill();
+
+			// make moon (slice edge with grey circle)
+			if (status == "idle" && background == "discord") {
+				ctx.beginPath();
+				ctx.arc(545, 294, 21, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fillStyle = "#2c2f33";
+				ctx.fill();
+			}
+
+			if (status == "offline") {
+				//slice middle of status indi
+				ctx.beginPath();
+				ctx.arc(557, 309, 12.5, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fillStyle = "#2c2f33";
+				ctx.fill();
+			}
+
+			if (status == "dnd") {
+				// draw small brush onto circle
+				ctx.beginPath();
+				ctx.lineCap = "round";
+				ctx.lineWidth = 12;
+				ctx.moveTo(544, 309);
+				ctx.lineTo(570, 309);
+				// ctx.closePath();
+				ctx.strokeStyle = "#2c2f33";
+				ctx.stroke();
+			}
+		}
 
 		ctx.fillStyle = "white";
 		ctx.font = `50px "Whitney Medium"`;
