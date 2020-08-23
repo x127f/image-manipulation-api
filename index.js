@@ -31,7 +31,7 @@ app.listen(port, () => {
 app.use((err, req, res, next) => {
 	if (err)
 		if (err.toString() == "404") {
-			return res.sendFile(__dirname + "/assets/404.jpg");
+			return res.sendFile(__dirname + "/assets/404.png");
 		} else {
 			return res.status(400).send({
 				err:

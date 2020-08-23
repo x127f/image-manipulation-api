@@ -24,7 +24,7 @@ module.exports = (app) => {
 		ctx.textAlign = "center";
 		ctx.fillStyle = "white";
 
-		let avatar = await loadImage("https://cdn.discordapp.com/avatars/" + user_id + "/" + user_avatar + ".png?size=128");
+		let avatar = await loadImage(`https://cdn.discordapp.com/avatars/${user_id}/${user_avatar}.png?size=128`);
 
 		var fonts = await fontList.getFonts();
 		ctx.drawImage(back, 0, 0, width, height);
