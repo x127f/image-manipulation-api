@@ -23,7 +23,9 @@
 | /setup/welcome |      |
 | /setup/leave   |      |
 | /fortnite/shop |      |
+| /fortnite/leaks |      |
 | /economy/slots |      |
+
 
 ### Auth:
 
