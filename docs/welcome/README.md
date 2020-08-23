@@ -18,4 +18,5 @@
 | background   | discord                          | [discord, default, overwatch, minecraft] |
 | status       | dnd                              | [online, idle, dnd, offline]             |
 
-## Example - png:
+## Example - png
+<img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/welcome/welcome.png"/>
