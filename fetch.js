@@ -2,6 +2,7 @@ const crypto = require("crypto");
 const fs = require("fs");
 const nodeFetch = require("node-fetch");
 const { secret } = require("./config.json");
+const { param } = require("express/lib/router");
 
 async function fetch(path, params) {
 	var query = hash(params);
@@ -13,6 +14,7 @@ function hash(params) {
 		try {
 			if (typeof params[key] === "number") params[key] = params[key].toString();
 			if (typeof params[key] === "object") params[key] = JSON.stringify(params[key]);
+			if (typeof params[key] === "string") params[key] = encodeURIComponent(params[key]);
 		} catch (error) {}
 	});
 	const hash = crypto.createHmac("sha256", secret).update(JSON.stringify(params)).digest("hex");
