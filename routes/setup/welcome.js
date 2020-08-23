@@ -16,9 +16,6 @@ module.exports = (app) => {
 				back.src = __dirname + "/../../assets/backgrounds/welcome/backgroundSmall.png";
 				break;
 			case "discord":
-				back.src = __dirname + "/../../assets/backgrounds/welcome/discord.png";
-				break;
-			case "discord_small":
 				back.src = __dirname + "/../../assets/backgrounds/welcome/discordSmall.png";
 				break;
 		}
