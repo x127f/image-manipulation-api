@@ -15,7 +15,7 @@
 | guild_avatar | 6e4174e86c4b36be80d2159f8214788a |                                          |
 | guild_id     | 683026970606567440               |                                          |
 | member_count | 94                               |                                          |
-| background   | discord                          | [discord, default, overwatch, minecraft] |
+| background   | discord                          | [discord, default, overwatch, minecraft, valorant] |
 | status       | dnd                              | [online, idle, dnd, offline]             |
 
 ### Example URL - 
