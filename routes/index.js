@@ -1,5 +1,6 @@
 const fs = require("fs");
 const express = require("express");
+const errorHandler = require("./error");
 
 async function main(app) {
 	var categories = fs.readdirSync(`${__dirname}/`);
@@ -21,6 +22,7 @@ async function main(app) {
 				} catch (error) {
 					console.error(`error while loading route: ${category}/${route}`, error);
 				}
+				router.use(errorHandler);
 
 				app.use(`/${category}/${route}`, router);
 			});
