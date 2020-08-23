@@ -4,9 +4,9 @@ const nodeFetch = require("node-fetch");
 const { secret } = require("./config.json");
 const { param } = require("express/lib/router");
 
-async function generate(path, params, opts = { url: "https://cdn.trenite.tk" }) {
+function generate(path, params, opts = { url: "https://cdn.trenite.tk" }) {
 	var query = hash(params);
-	return nodeFetch(`${opts.url}${path}?${query}`);
+	return `${opts.url}${path}?${query}`;
 }
 
 async function fetch(...args) {
