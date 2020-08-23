@@ -1,12 +1,14 @@
 const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
+// const { registerFont } = require("canvas");
 
 require("express-async-errors");
 const app = express();
 const port = 3000;
 const routes = require("./routes");
 const config = require("./config.json");
+// registerFont(__dirname + "/assets/whitney.ttf", { family: "whitney" });
 
 app.use((req, res, next) => {
 	if (!config.production) return next();
@@ -34,9 +36,7 @@ app.use((err, req, res, next) => {
 			return res.sendFile(__dirname + "/assets/404.png");
 		} else {
 			return res.status(400).send({
-				err:
-					err.toString() +
-					", for further help, view our repo: https://github.com/Trenite/image-manipulation-api",
+				err: err.toString() + ", for further help, view our repo: https://github.com/Trenite/image-manipulation-api",
 				success: false,
 				status: 400,
 			});
