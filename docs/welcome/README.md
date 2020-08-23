@@ -18,6 +18,11 @@
 | background   | discord                          | [discord, default] / url|
 | status       | dnd                              | [online, idle, dnd, offline]             |
 
+### Todo
+- optional guild icon
+- set x/y position for each parameter
+- custom text
+
 ### Example URL - 
 ```
 http://cdn.trenite.tk/setup/welcome
