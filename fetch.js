@@ -1,8 +1,7 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const nodeFetch = require("node-fetch");
-
-const secret = fs.readFileSync(__dirname + "/assets/secret.pem", { encoding: "utf8" });
+const { secret } = require("./config.json");
 
 async function fetch(path, params) {
 	var query = hash(params);
@@ -12,7 +11,8 @@ async function fetch(path, params) {
 function hash(params) {
 	Object.keys(params).forEach((key) => {
 		try {
-			params[key] = JSON.stringify(params[key]);
+			if (typeof params[key] === "number") params[key] = params[key].toString();
+			if (typeof params[key] === "object") params[key] = JSON.stringify(params[key]);
 		} catch (error) {}
 	});
 	const hash = crypto.createHmac("sha256", secret).update(JSON.stringify(params)).digest("hex");

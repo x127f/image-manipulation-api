@@ -1,8 +1,8 @@
-const fetch = require("./fetch");
+const { fetch } = require("./fetch");
 const fs = require("fs");
 
 fetch("/setup/welcome", {
-	user_tag: "xnacly%236370",
+	user_tag: "xnacly#6370",
 	user_id: "417699816836169728",
 	guild_name: "Trenite",
 	guild_avatar: "6e4174e86c4b36be80d2159f8214788a",

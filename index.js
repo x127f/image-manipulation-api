@@ -1,7 +1,6 @@
 const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
-const secret = fs.readFileSync(__dirname + "/assets/secret.pem", { encoding: "utf8" });
 
 require("express-async-errors");
 const app = express();
@@ -16,7 +15,7 @@ app.use((req, res, next) => {
 	delete payload.hash;
 	payload = JSON.stringify(payload);
 
-	var hash = crypto.createHmac("sha256", secret).update(payload).digest("hex");
+	var hash = crypto.createHmac("sha256", config.secret).update(payload).digest("hex");
 
 	if (hash !== req.query.hash) throw "Invalid query signature";
 
