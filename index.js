@@ -1,6 +1,7 @@
 const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
+// const { registerFont } = require("canvas");
 
 require("express-async-errors");
 const app = express();

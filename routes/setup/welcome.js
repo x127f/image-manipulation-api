@@ -1,11 +1,15 @@
 const fontList = require("font-list");
-const { createCanvas, loadImage, Image } = require("canvas");
+const { createCanvas, loadImage, Image, registerFont } = require("canvas");
 const fs = require("fs");
+
+registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium" });
 
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
-		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background } = req.query;
-		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background) throw "query invalid";
+		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status } = req.query;
+		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background || !status) {
+			throw "query invalid";
+		}
 
 		const back = new Image();
 		switch (background) {
@@ -16,11 +20,22 @@ module.exports = (app) => {
 				back.src = __dirname + "/../../assets/backgrounds/welcome/backgroundSmall.png";
 				break;
 			case "discord":
-				back.src = __dirname + "/../../assets/backgrounds/welcome/discord.png";
-				break;
-			case "discord_small":
 				back.src = __dirname + "/../../assets/backgrounds/welcome/discordSmall.png";
 				break;
+		}
+		let style;
+		switch (status) {
+			case "online":
+				style = "#43b581";
+				break;
+			case "dnd":
+				style = "#f04747";
+				break;
+			case "idle":
+				style = "#faa61a";
+				break;
+			case "offline":
+				style = "#747f8d";
 		}
 
 		const canvas = createCanvas(1000, 500);
@@ -36,12 +51,13 @@ module.exports = (app) => {
 			avatar = await loadImage(`https://cdn.discordapp.com/embed/avatars/${user_tag.split("#")[1] % 5}.png?size=128`);
 		}
 
-		var fonts = await fontList.getFonts();
+		// var fonts = await fontList.getFonts();
 		ctx.drawImage(back, 0, 0, width, height);
 
 		var avatarWidth = 150;
 		var x = width / 2 - avatarWidth / 2;
 		var y = height / 2 - avatarWidth / 2;
+
 		ctx.save();
 		ctx.beginPath();
 		ctx.arc(x + avatarWidth / 2, y + avatarWidth / 2, avatarWidth / 2, 0, Math.PI * 2, true);
@@ -50,7 +66,56 @@ module.exports = (app) => {
 		ctx.drawImage(avatar, x, y, avatarWidth, avatarWidth);
 		ctx.restore();
 
-		ctx.font = `50px "Arial", ${fonts.join(", ")}`;
+		if (status != "none") {
+			if (background == "discord") {
+				// draw grey background circle below status indicator
+				ctx.beginPath();
+				ctx.arc(557, 309, 40, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fillStyle = "#2c2f33";
+				ctx.fill();
+			}
+
+			//status
+			ctx.beginPath();
+			ctx.arc(557, 309, 25, 0, Math.PI * 2, true);
+			ctx.closePath();
+			ctx.fillStyle = style;
+			ctx.fill();
+
+			// make moon (slice edge with grey circle)
+			if (status == "idle" && background == "discord") {
+				ctx.beginPath();
+				ctx.arc(545, 294, 21, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fillStyle = "#2c2f33";
+				ctx.fill();
+			}
+
+			if (status == "offline") {
+				//slice middle of status indi
+				ctx.beginPath();
+				ctx.arc(557, 309, 12.5, 0, Math.PI * 2, true);
+				ctx.closePath();
+				ctx.fillStyle = "#2c2f33";
+				ctx.fill();
+			}
+
+			if (status == "dnd") {
+				// draw small brush onto circle
+				ctx.beginPath();
+				ctx.lineCap = "round";
+				ctx.lineWidth = 12;
+				ctx.moveTo(544, 309);
+				ctx.lineTo(570, 309);
+				// ctx.closePath();
+				ctx.strokeStyle = "#2c2f33";
+				ctx.stroke();
+			}
+		}
+
+		ctx.fillStyle = "white";
+		ctx.font = `50px "Whitney Medium"`;
 		ctx.fillText(`Welcome to ${guild_name}`, width / 2, 100);
 		ctx.fillText(`Member #${member_count}`, width / 2, 400);
 
