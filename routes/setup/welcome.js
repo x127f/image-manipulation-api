@@ -8,7 +8,15 @@ module.exports = (app) => {
 		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background) throw "query invalid";
 
 		const back = new Image();
-		back.src = __dirname + "/../../assets/backgrounds/background.png";
+		switch (background) {
+			case "default":
+				back.src = __dirname + "/../../assets/backgrounds/background.png";
+				break;
+			case "default_small":
+				back.src = __dirname + "/../../assets/backgrounds/backgroundSmall.png";
+				break;
+		}
+
 		const canvas = createCanvas(1000, 500);
 		const ctx = canvas.getContext("2d");
 
