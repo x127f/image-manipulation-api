@@ -10,10 +10,16 @@ module.exports = (app) => {
 		const back = new Image();
 		switch (background) {
 			case "default":
-				back.src = __dirname + "/../../assets/backgrounds/background.png";
+				back.src = __dirname + "/../../assets/backgrounds/welcome/background.png";
 				break;
 			case "default_small":
-				back.src = __dirname + "/../../assets/backgrounds/backgroundSmall.png";
+				back.src = __dirname + "/../../assets/backgrounds/welcome/backgroundSmall.png";
+				break;
+			case "discord":
+				back.src = __dirname + "/../../assets/backgrounds/welcome/discord.png";
+				break;
+			case "discord_small":
+				back.src = __dirname + "/../../assets/backgrounds/welcome/discordSmall.png";
 				break;
 		}
 
