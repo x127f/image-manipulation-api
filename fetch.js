@@ -4,7 +4,12 @@ const nodeFetch = require("node-fetch");
 
 const secret = fs.readFileSync(__dirname + "/assets/secret.pem", { encoding: "utf8" });
 
-module.exports = async function fetch(path, params) {
+async function fetch(path, params) {
+	var query = hash(params);
+	return nodeFetch(`http://localhost:3000${path}?${query}`);
+}
+
+function hash(params) {
 	Object.keys(params).forEach((key) => {
 		try {
 			params[key] = JSON.stringify(params[key]);
@@ -18,6 +23,7 @@ module.exports = async function fetch(path, params) {
 			return `${x[0]}=${x[1]}`;
 		})
 		.join("&");
+	return query;
+}
 
-	return nodeFetch(`http://localhost:3000${path}?${query}`);
-};
+module.exports = { fetch, hash };
