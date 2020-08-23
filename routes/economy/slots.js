@@ -1,0 +1,317 @@
+const GIFEncoder = require("gifencoder");
+const { createCanvas, loadImage, Image } = require("canvas");
+const fontkit = require("fontkit");
+const font = fontkit.openSync(__dirname + "/../../assets/AppleColorEmoji.ttc").fonts[0];
+
+module.exports = async (app) => {
+	var slotimage = await loadImage(`${__dirname}/../../assets/backgrounds/slots.png`);
+
+	app.get("/", async (req, res) => {
+		var { bet, credits } = req.query;
+		bet = 2;
+		credits = 2;
+
+		function drawTextWithEmojis(ctx, text, x, y) {
+			var size = ctx.fontSize;
+			var offsetX = 0;
+			y += size;
+			for (const char of text) {
+				let run = font.layout(char);
+				let glyph = run.glyphs[0].getImageForSize(size);
+
+				if (glyph && glyph.data) {
+					var image = new Image();
+					image.src = glyph.data;
+					ctx.drawImage(image, x + offsetX - size / 2, y - size / 1.3, size, size);
+					// offsetX += size / 2;
+				} else {
+					ctx.fillText(char, x + offsetX, y);
+					offsetX += ctx.measureText(char).width;
+				}
+			}
+		}
+
+		function drawGoldText(ctx, text, x, y) {
+			var fontSize = ctx.fontSize;
+			var gradient = ctx.createLinearGradient(0, 0, 150, 100);
+			gradient.addColorStop(0, "#aa7129");
+			gradient.addColorStop(0, "#895c1c");
+			ctx.fillStyle = gradient;
+			ctx.fillText(text, x, y);
+		}
+
+		const width = 600;
+		const height = 300;
+		const fps = 30;
+
+		// only child process
+		const items = ["🍇", "🍊", "🍎", "🍉", "🍋", "🍒"];
+		var itemSettings = {
+			"🍇": {
+				color: "#8c2348",
+				points: 50,
+			},
+			"🍉": {
+				color: "#a3b46c",
+				points: 20,
+			},
+			"🍎": {
+				color: "#c31a1c",
+				points: 15,
+			},
+			"🍊": {
+				color: "#ff882b",
+				points: 10,
+			},
+			"🍋": {
+				color: "#ffec85",
+				points: 5,
+			},
+			"🍒": {
+				color: "#b8182c",
+				points: 3,
+			},
+		};
+		const encoder = new GIFEncoder(width, height);
+		var output = encoder.createReadStream();
+		const canvas = createCanvas(width, height);
+		const ctx = canvas.getContext("2d");
+		ctx.drawImage(slotimage, 0, 0, width, height);
+
+		const endItems = [];
+
+		const frames = 100;
+		// offset of the display slot machine background
+		const offsetUp = 44;
+		const offsetDown = 222;
+		const offsetLeft = 75;
+		const offsetRight = 524;
+		// display dimensions
+		const displayY = offsetUp;
+		const displayX = offsetLeft;
+		const displayWidth = offsetRight - offsetLeft;
+		const displayHeight = offsetDown - offsetUp;
+
+		// credits and bet box
+		const centerTextboxY = 273;
+		const centerCreditsX = width / 2;
+		const centerBetX = 125;
+		const numberOfItemsForWin = 3;
+
+		const smoothEnd = 10; // how many frames at the end for smoothing/slowing down the items
+		const rowCount = 6;
+		const rowWidth = displayWidth / rowCount;
+		const fontSize = 40;
+		const spaceItems = 20; // space between the items
+		const itemBox = fontSize + spaceItems;
+		ctx.fontSize = fontSize;
+
+		const rows = [];
+		const speeds = [];
+		const accelerationTimes = [];
+		const stopTimes = [];
+		const startTimes = [];
+
+		encoder.start();
+		encoder.setRepeat(-1);
+		encoder.setDelay(10);
+		encoder.setQuality(256);
+
+		for (var i = 0; i < rowCount; i++) {
+			var row = rows[rows.push([]) - 1];
+			var speed = Math.random() * 10 + 10;
+
+			var inverse = 1;
+			// if (Math.random() <= 0.5) {
+			// 	speed *= -1;
+			// 	inverse = -1;
+			// }
+
+			speeds.push(speed);
+			accelerationTimes.push(Math.floor(Math.random() * 35 + 15));
+			stopTimes.push(frames - Math.floor(Math.random() * 15));
+			startTimes.push(Math.floor(Math.random() * 20));
+
+			for (var j = 0; j < 100; j++) {
+				var offset = inverse === -1 ? offsetDown : -offsetDown;
+				row.push({
+					text: items[Math.floor(Math.random() * items.length)],
+					y: offset + j * itemBox * inverse,
+				});
+			}
+		}
+
+		ctx.save();
+
+		ctx.font = `15px "Arial"`;
+		ctx.fillStyle = "black";
+		// credit box dimensions
+		const creditsBoxX = 219;
+		const creditsBoxY = 254;
+		const creditsBoxW = 162;
+		const creditsBoxH = 24;
+
+		// how many frames fo the credits minus animaiton
+		const startCreditCounterFrames = 15;
+		var newCredits = credits - bet;
+		var newCreditsCounter = credits;
+		ctx.textAlign = "center";
+		ctx.fillStyle = "#d2e2e4";
+		ctx.fillRect(creditsBoxX, creditsBoxY, creditsBoxW, creditsBoxH);
+		ctx.fillStyle = "black";
+		ctx.fillText(bet, centerBetX, centerTextboxY);
+		ctx.fillText(Math.floor(newCreditsCounter), centerCreditsX, centerTextboxY);
+
+		ctx.save();
+
+		ctx.beginPath();
+		ctx.moveTo(displayX, displayY);
+		ctx.lineTo(offsetRight, displayY);
+		ctx.lineTo(offsetRight, offsetDown);
+		ctx.lineTo(displayX, offsetDown);
+		ctx.closePath();
+		ctx.clip();
+		doAnimationFrame();
+		ctx.restore();
+		ctx.textAlign = "center";
+
+		for (var i = 0; i < 7; i++) encoder.addFrame(ctx);
+
+		for (var i = 0; i <= startCreditCounterFrames; i++) {
+			ctx.fillStyle = "#d2e2e4";
+			ctx.fillRect(creditsBoxX, creditsBoxY, creditsBoxW, creditsBoxH);
+			ctx.fillStyle = "black";
+			newCreditsCounter -= bet / startCreditCounterFrames;
+			if (i >= startCreditCounterFrames - 1) newCreditsCounter = newCredits;
+			ctx.fillText(Math.floor(newCreditsCounter), centerCreditsX, centerTextboxY);
+			encoder.addFrame(ctx);
+		}
+
+		ctx.beginPath();
+		ctx.moveTo(displayX, displayY);
+		ctx.lineTo(offsetRight, displayY);
+		ctx.lineTo(offsetRight, offsetDown);
+		ctx.lineTo(displayX, offsetDown);
+		ctx.closePath();
+		ctx.clip();
+
+		ctx.textAlign = "left";
+
+		var test = [];
+
+		ctx.font = `${fontSize}px "Apple Color Emoji"`;
+
+		function doAnimationFrame() {
+			ctx.fillStyle = "white";
+			ctx.fillRect(displayX, displayY, displayWidth, displayHeight);
+
+			for (const [indexRow, row] of rows.entries()) {
+				var stopTime = stopTimes[indexRow];
+				var startTime = startTimes[indexRow];
+
+				var speed = speeds[indexRow];
+				var accelerationTime = accelerationTimes[indexRow];
+
+				if (i > stopTime - accelerationTime) {
+					speed *= accelerationTime / i;
+				} else if (i < accelerationTime) {
+					speed *= i / accelerationTime;
+				}
+
+				for (const [indexEntry, entry] of row.entries()) {
+					if (entry.y + fontSize > displayY && entry.y - fontSize < offsetDown) {
+						drawTextWithEmojis(ctx, entry.text, displayX + indexRow * rowWidth + fontSize, entry.y);
+					}
+
+					if (i < startTime) continue;
+					if (i > stopTime) continue;
+					entry.y -= speed;
+				}
+			}
+		}
+
+		for (var i = 0; i < frames; i++) {
+			doAnimationFrame();
+
+			encoder.addFrame(ctx);
+		}
+
+		for (var i = 0; i <= smoothEnd; i++) {
+			ctx.fillRect(displayX, displayY, displayWidth, displayHeight);
+			for (const [indexRow, row] of rows.entries()) {
+				for (const [indexEntry, entry] of row.entries()) {
+					if (entry.y + itemBox > displayY && entry.y - itemBox < offsetDown) {
+						var newY = Math.round(entry.y / itemBox) * itemBox - 20;
+						var add = (newY - entry.y) / 5;
+						entry.y += add;
+						if (i === smoothEnd) {
+							entry.y = newY;
+						}
+						drawTextWithEmojis(ctx, entry.text, displayX + indexRow * rowWidth + fontSize, entry.y);
+					}
+				}
+			}
+		}
+
+		for (const [indexRow, row] of rows.entries()) {
+			endItems[indexRow] = [];
+			for (const [indexEntry, entry] of row.entries()) {
+				if (entry.y + itemBox > displayY && entry.y - itemBox < offsetDown && endItems[indexRow].length < 3) {
+					endItems[indexRow].push({ text: entry.text, y: entry.y });
+				}
+			}
+		}
+		var drawEnd = [];
+		const sizeDecrease = 0;
+		ctx.lineWidth = 5;
+		var result = 0;
+
+		for (var i = 0; i < endItems.length; i++) {
+			drawEnd[i] = [];
+			for (var [indexItem, item] of endItems[i].entries()) {
+				ctx.strokeStyle = itemSettings[item.text].color;
+				if (endItems.filter((x) => x[indexItem].text === item.text).length >= numberOfItemsForWin) {
+					result += itemSettings[item.text].points;
+					drawEnd[i][indexItem] = true;
+					var x = displayX + i * rowWidth + spaceItems / 2 + sizeDecrease;
+					var y = item.y + sizeDecrease;
+					var w = itemBox - sizeDecrease;
+					ctx.strokeRect(x, y, w, w);
+				}
+			}
+		}
+
+		result = result * bet;
+		ctx.restore();
+
+		ctx.textAlign = "center";
+		ctx.font = `15px "Arial"`;
+		newCredits = credits + result - bet;
+		newCreditsCounter = credits - bet;
+		const endCreditCounterFrames = result ? 20 : 0;
+		for (var i = 0; i < 10; i++) encoder.addFrame(ctx);
+
+		for (var i = 0; i <= endCreditCounterFrames; i++) {
+			ctx.fillStyle = "#d2e2e4";
+			ctx.fillRect(creditsBoxX, creditsBoxY, creditsBoxW, creditsBoxH);
+			ctx.fillStyle = "black";
+			newCreditsCounter += result / endCreditCounterFrames;
+			if (i === endCreditCounterFrames) newCreditsCounter = newCredits;
+			ctx.fillText(Math.floor(newCreditsCounter), centerCreditsX, centerTextboxY);
+			encoder.addFrame(ctx);
+		}
+
+		for (var i = 0; i < 30; i++) encoder.addFrame(ctx);
+
+		encoder.finish();
+
+		res.set("content-type", "image/gif");
+
+		output.on("data", (data) => {
+			res.write(data);
+		});
+		output.on("end", (data) => {
+			res.status(200).send();
+		});
+	});
+};
