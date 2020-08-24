@@ -17,6 +17,7 @@
 | background   | :white_check_mark: | discord                          | [discord, default, default_small, minecraft, fortnite] / URL |
 | status       | :x:                | dnd                              | [online, idle, dnd, offline, none]                           |
 | greet_user   | :x:                | true                             | boolean                                                      |
+| custom_text  | :x:                | welcome to hanamura              | text                                                         |
 
 ### Todo
 - optional guild icon
@@ -36,6 +37,7 @@ http://cdn.trenite.tk/setup/welcome
 &background=discord
 &status=dnd
 &greet_user=false
+&custom_text=welcome to hanamura
 ```
 
 ## Examples 
