@@ -7,7 +7,7 @@ registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium"
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
 		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status, greet_user } = req.query;
-		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !user_avatar || !background || !status || !greet_user) {
+		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !user_avatar || !background || !greet_user) {
 			throw "query invalid";
 		}
 
@@ -75,50 +75,52 @@ module.exports = (app) => {
 		ctx.restore();
 
 		if (status != "none") {
-			if (background == "discord") {
-				// draw grey background circle below status indicator
+			if (statusarray.includes(status)) {
+				if (background == "discord") {
+					// draw grey background circle below status indicator
+					ctx.beginPath();
+					ctx.arc(557, 309, 40, 0, Math.PI * 2, true);
+					ctx.closePath();
+					ctx.fillStyle = "#2c2f33";
+					ctx.fill();
+				}
+
+				//status
 				ctx.beginPath();
-				ctx.arc(557, 309, 40, 0, Math.PI * 2, true);
+				ctx.arc(557, 309, 25, 0, Math.PI * 2, true);
 				ctx.closePath();
-				ctx.fillStyle = "#2c2f33";
+				ctx.fillStyle = style;
 				ctx.fill();
-			}
 
-			//status
-			ctx.beginPath();
-			ctx.arc(557, 309, 25, 0, Math.PI * 2, true);
-			ctx.closePath();
-			ctx.fillStyle = style;
-			ctx.fill();
+				// make moon (slice edge with grey circle)
+				if (status == "idle" && background == "discord") {
+					ctx.beginPath();
+					ctx.arc(545, 294, 21, 0, Math.PI * 2, true);
+					ctx.closePath();
+					ctx.fillStyle = "#2c2f33";
+					ctx.fill();
+				}
 
-			// make moon (slice edge with grey circle)
-			if (status == "idle" && background == "discord") {
-				ctx.beginPath();
-				ctx.arc(545, 294, 21, 0, Math.PI * 2, true);
-				ctx.closePath();
-				ctx.fillStyle = "#2c2f33";
-				ctx.fill();
-			}
+				if (status == "offline") {
+					//slice middle of status indi
+					ctx.beginPath();
+					ctx.arc(557, 309, 12.5, 0, Math.PI * 2, true);
+					ctx.closePath();
+					ctx.fillStyle = "#2c2f33";
+					ctx.fill();
+				}
 
-			if (status == "offline") {
-				//slice middle of status indi
-				ctx.beginPath();
-				ctx.arc(557, 309, 12.5, 0, Math.PI * 2, true);
-				ctx.closePath();
-				ctx.fillStyle = "#2c2f33";
-				ctx.fill();
-			}
-
-			if (status == "dnd") {
-				// draw small brush onto circle
-				ctx.beginPath();
-				ctx.lineCap = "round";
-				ctx.lineWidth = 12;
-				ctx.moveTo(544, 309);
-				ctx.lineTo(570, 309);
-				// ctx.closePath();
-				ctx.strokeStyle = "#2c2f33";
-				ctx.stroke();
+				if (status == "dnd") {
+					// draw small brush onto circle
+					ctx.beginPath();
+					ctx.lineCap = "round";
+					ctx.lineWidth = 12;
+					ctx.moveTo(544, 309);
+					ctx.lineTo(570, 309);
+					// ctx.closePath();
+					ctx.strokeStyle = "#2c2f33";
+					ctx.stroke();
+				}
 			}
 		}
 
