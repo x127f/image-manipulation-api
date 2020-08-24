@@ -42,5 +42,9 @@ http://cdn.trenite.tk/setup/welcome
 
 ## Examples 
 - all params from above
-<img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/welcome/welcome.png"/>
 
+  <kbd>
+
+  <img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/welcome/welcome.png"/>
+
+  <kbd/>
