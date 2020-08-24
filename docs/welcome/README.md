@@ -2,9 +2,8 @@
 
 - returns .png
 
-- all url-query-parameters are required
-
   
+
 
 | query-param: | required           | example:                         | values:                                                      |
 | ------------ | ------------------ | -------------------------------- | ------------------------------------------------------------ |
@@ -15,7 +14,7 @@
 | guild_avatar | :white_check_mark: | 6e4174e86c4b36be80d2159f8214788a | guild avatar hash                                            |
 | guild_id     | :white_check_mark: | 683026970606567440               | guild id                                                     |
 | member_count | :x:                | 94                               | guild member count                                           |
-| background   | :white_check_mark: | discord                          | [discord, default, default_small, minecraft, fortnite] / url |
+| background   | :white_check_mark: | discord                          | [discord, default, default_small, minecraft, fortnite] / URL |
 | status       | :x:                | dnd                              | [online, idle, dnd, offline, none]                           |
 | greet_user   | :x:                | true                             | boolean                                                      |
 
