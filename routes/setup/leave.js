@@ -1,5 +1,5 @@
+const welcome_leave = require("../welcome_leave");
+
 module.exports = (app) => {
-	app.get("/", (req, res) => {
-		return;
-	});
+	app.get("/", welcome_leave("leave"));
 };
