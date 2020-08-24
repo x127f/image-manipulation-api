@@ -7,18 +7,7 @@ registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium"
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
 		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status, greet_user } = req.query;
-		if (
-			!user_tag ||
-			!user_id ||
-			!guild_name ||
-			!guild_avatar ||
-			!guild_id ||
-			!member_count ||
-			!user_avatar ||
-			!background ||
-			!status ||
-			!greet_user
-		) {
+		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !user_avatar || !background || !status || !greet_user) {
 			throw "query invalid";
 		}
 
@@ -85,7 +74,6 @@ module.exports = (app) => {
 		ctx.drawImage(avatar, x, y, avatarWidth, avatarWidth);
 		ctx.restore();
 
-		// if (status in statusarray) {
 		if (status != "none") {
 			if (background == "discord") {
 				// draw grey background circle below status indicator
@@ -133,7 +121,6 @@ module.exports = (app) => {
 				ctx.stroke();
 			}
 		}
-		// }
 
 		ctx.fillStyle = "white";
 		ctx.font = `50px "Whitney Medium"`;
@@ -143,7 +130,9 @@ module.exports = (app) => {
 			ctx.fillText(`Welcome to ${guild_name}`, width / 2, 100);
 		}
 
-		ctx.fillText(`Member #${member_count}`, width / 2, 400);
+		if (member_count) {
+			ctx.fillText(`Member #${member_count}`, width / 2, 400);
+		}
 
 		let buffer = canvas.toBuffer();
 		res.set("Content-Type", "image/png");
