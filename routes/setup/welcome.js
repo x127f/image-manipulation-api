@@ -6,8 +6,19 @@ registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium"
 
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
-		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status } = req.query;
-		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !member_count || !user_avatar || !background || !status) {
+		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status, greet_user } = req.query;
+		if (
+			!user_tag ||
+			!user_id ||
+			!guild_name ||
+			!guild_avatar ||
+			!guild_id ||
+			!member_count ||
+			!user_avatar ||
+			!background ||
+			!status ||
+			!greet_user
+		) {
 			throw "query invalid";
 		}
 
@@ -21,6 +32,12 @@ module.exports = (app) => {
 				break;
 			case "discord":
 				back.src = __dirname + "/../../assets/backgrounds/welcome/discordSmall.png";
+				break;
+			case "minecraft":
+				back.src = __dirname + "/../../assets/backgrounds/welcome/minecraft_1.png";
+				break;
+			case "fortnite":
+				back.src = __dirname + "/../../assets/backgrounds/welcome/fortnite_1.png";
 				break;
 			default:
 				back = await loadImage(background);
@@ -120,7 +137,12 @@ module.exports = (app) => {
 
 		ctx.fillStyle = "white";
 		ctx.font = `50px "Whitney Medium"`;
-		ctx.fillText(`Welcome to ${guild_name}`, width / 2, 100);
+		if (greet_user.toLowerCase() === "true") {
+			ctx.fillText(`Welcome ${user_tag}`, width / 2, 100);
+		} else {
+			ctx.fillText(`Welcome to ${guild_name}`, width / 2, 100);
+		}
+
 		ctx.fillText(`Member #${member_count}`, width / 2, 400);
 
 		let buffer = canvas.toBuffer();
