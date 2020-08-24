@@ -1,4 +1,5 @@
 const { createCanvas, loadImage, Image } = require("canvas");
+const fs = require("fs").promises;
 var background;
 (async () => {
 	background = await loadImage(__dirname + "/../assets/404.png");
@@ -6,24 +7,34 @@ var background;
 
 module.exports = async (err, req, res, next) => {
 	if (err) {
-		const canvas = createCanvas(404, 404);
-		var { width, height } = canvas;
-		const ctx = canvas.getContext("2d");
-
-		ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
-
-		var height = 30;
-		ctx.fillStyle = "#b9bbbe";
-		ctx.font = `${height}px Arial`;
-		ctx.textAlign = "left";
-		var lines = fragmentText(ctx, err.toString(), 200);
-		lines.forEach((line, index) => {
-			ctx.fillText(line, 30, 50 + index * height);
-		});
-
-		let buffer = canvas.toBuffer();
 		res.set("Content-Type", "image/png");
-		res.send(buffer);
+		var file = err.replace(/[^a-zA-Z0-9 ]/g, "").replace(/\s/g, "_");
+
+		var path = `${__dirname}/../cache/errors/${file}.png`;
+
+		try {
+			var file = await fs.readFile(path);
+			res.send(file);
+		} catch (error) {
+			const canvas = createCanvas(404, 404);
+			var { width, height } = canvas;
+			const ctx = canvas.getContext("2d");
+
+			ctx.drawImage(background, 0, 0, canvas.width, canvas.height);
+
+			var height = 30;
+			ctx.fillStyle = "#b9bbbe";
+			ctx.font = `${height}px Arial`;
+			ctx.textAlign = "left";
+			var lines = fragmentText(ctx, err.toString(), 200);
+			lines.forEach((line, index) => {
+				ctx.fillText(line, 30, 50 + index * height);
+			});
+
+			let buffer = canvas.toBuffer();
+			fs.writeFile(path, buffer, { encoding: "binary" });
+			res.send(buffer);
+		}
 	}
 };
 

@@ -1,15 +1,148 @@
-const { fetch } = require("./fetch");
+const { generate } = require("./fetch");
 const fs = require("fs");
 
-fetch("/setup/welcome", {
-	user_tag: "xnacly#6370",
-	user_id: "417699816836169728",
-	guild_name: "Trenite",
-	guild_avatar: "6e4174e86c4b36be80d2159f8214788a",
-	guild_id: "683026970606567440",
-	member_count: "42",
-	user_avatar: "f76492e43b50b60ad4a3299691225f73",
-	background: "",
-})
-	.then((res) => res.buffer())
-	.then((buffer) => fs.writeFileSync("image.png", buffer));
+var url = generate("/fortnite/shop", {
+	shop: {
+		daily: [
+			{
+				id: 12575,
+				name: "Hit Man",
+				rarity: "Epic",
+				category: "BRDailyStorefront",
+				vbucks: 1500,
+				image: "https://trackercdn.com/legacycdn/fortnite/04EA12575_large.png",
+			},
+			{
+				id: 10811,
+				name: "Skully",
+				rarity: "rare",
+				category: "BRDailyStorefront",
+				vbucks: 1200,
+				image: "https://trackercdn.com/legacycdn/fortnite/4AAD10811_large.png",
+			},
+			{
+				id: 5276,
+				name: "Laugh It Up",
+				rarity: "rare",
+				category: "BRDailyStorefront",
+				vbucks: 500,
+				image: "https://trackercdn.com/legacycdn/fortnite/86A85276_large.png",
+			},
+			{
+				id: 12429,
+				name: "Never Gonna",
+				rarity: "Rare",
+				category: "BRDailyStorefront",
+				vbucks: 500,
+				image: "https://trackercdn.com/legacycdn/fortnite/4E3D12429_large.png",
+			},
+			{
+				id: 4997,
+				name: "Nitelite",
+				rarity: "uncommon",
+				category: "BRDailyStorefront",
+				vbucks: 800,
+				image: "https://trackercdn.com/legacycdn/fortnite/703B4997_large.png",
+			},
+			{
+				id: 6503,
+				name: "Scorecard",
+				rarity: "uncommon",
+				category: "BRDailyStorefront",
+				vbucks: 200,
+				image: "https://trackercdn.com/legacycdn/fortnite/152A6503_large.png",
+			},
+		],
+		weekly: [
+			{
+				id: 12701,
+				name: "Sky Ray",
+				rarity: "epic",
+				category: "BRWeeklyStorefront",
+				vbucks: 1200,
+				image: "https://trackercdn.com/legacycdn/fortnite/C9AE12701_large.png",
+			},
+			{
+				id: 12702,
+				name: "Mariana",
+				rarity: "epic",
+				category: "BRWeeklyStorefront",
+				vbucks: 1500,
+				image: "https://trackercdn.com/legacycdn/fortnite/C91E12702_large.png",
+			},
+			{
+				id: 12698,
+				name: "Kalia",
+				rarity: "rare",
+				category: "BRWeeklyStorefront",
+				vbucks: 1200,
+				image: "https://trackercdn.com/legacycdn/fortnite/79AF12698_large.png",
+			},
+			{
+				id: 12699,
+				name: "Trench Blades",
+				rarity: "rare",
+				category: "BRWeeklyStorefront",
+				vbucks: 800,
+				image: "https://trackercdn.com/legacycdn/fortnite/3E1212699_large.png",
+			},
+			{
+				id: 12540,
+				name: "Wolf",
+				rarity: "Rare",
+				category: "BRWeeklyStorefront",
+				vbucks: 1200,
+				image: "https://trackercdn.com/legacycdn/fortnite/F0B312540_large.png",
+			},
+			{
+				id: 12541,
+				name: "Siren",
+				rarity: "Rare",
+				category: "BRWeeklyStorefront",
+				vbucks: 1200,
+				image: "https://trackercdn.com/legacycdn/fortnite/F7B212541_large.png",
+			},
+			{
+				id: 12700,
+				name: "Salty Glow",
+				rarity: "rare",
+				category: "BRWeeklyStorefront",
+				vbucks: 500,
+				image: "https://trackercdn.com/legacycdn/fortnite/438512700_large.png",
+			},
+			{
+				id: 12543,
+				name: "XO Axes",
+				rarity: "Rare",
+				category: "BRWeeklyStorefront",
+				vbucks: 800,
+				image: "https://trackercdn.com/legacycdn/fortnite/718812543_large.png",
+			},
+			{
+				id: 12696,
+				name: "Castaway Jonesy",
+				rarity: "uncommon",
+				category: "BRWeeklyStorefront",
+				vbucks: 800,
+				image: "https://trackercdn.com/legacycdn/fortnite/B42912696_large.png",
+			},
+			{
+				id: 12697,
+				name: "Tropic Axe",
+				rarity: "uncommon",
+				category: "BRWeeklyStorefront",
+				vbucks: 500,
+				image: "https://trackercdn.com/legacycdn/fortnite/3A5112697_large.png",
+			},
+			{
+				id: 12542,
+				name: "Reflex Blades",
+				rarity: "uncommon",
+				category: "BRWeeklyStorefront",
+				vbucks: 500,
+				image: "https://trackercdn.com/legacycdn/fortnite/6B3F12542_large.png",
+			},
+		],
+	},
+});
+console.log(url);

@@ -13,9 +13,11 @@ registerFont(__dirname + "/../../assets/BurbankBigCondensedBlack.ttf", {
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
 		var { text, background, font, size, x, y, color, shadow } = req.query;
-		if (!text || !color || !shadow) throw "missing query parameter";
+		if (!text) throw "missing query parameter";
 
 		if (!font) font = "Arial";
+		if (!shadow) shadow = 0;
+		if (!color) color = "black";
 		if (background) {
 			background = await loadImage(background);
 
