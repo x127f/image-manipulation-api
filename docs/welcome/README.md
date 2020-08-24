@@ -6,17 +6,18 @@
 
   
 
-| query-param: | optional | example:                         | extras:                                                      |
-| ------------ | -------- | -------------------------------- | ------------------------------------------------------------ |
-| user_tag     | false    | xnacly#6370                      |                                                              |
-| user_id      | false    | 417699816836169728               |                                                              |
-| user_avatar  | false    | f76492e43b50b60ad4a3299691225f73 |                                                              |
-| guild_name   | false    | Trenite                          |                                                              |
-| guild_avatar | false    | 6e4174e86c4b36be80d2159f8214788a |                                                              |
-| guild_id     | false    | 683026970606567440               |                                                              |
-| member_count | true     | 94                               |                                                              |
-| background   | false    | discord                          | [discord, default, default_small, minecraft, fortnite] / url |
-| status       | true     | dnd                              | [online, idle, dnd, offline, none]                           |
+| query-param: | required           | example:                         | values:                                                      |
+| ------------ | ------------------ | -------------------------------- | ------------------------------------------------------------ |
+| user_tag     | :white_check_mark: | xnacly#6370                      | user tag                                                     |
+| user_id      | :white_check_mark: | 417699816836169728               | user id                                                      |
+| user_avatar  | :white_check_mark: | f76492e43b50b60ad4a3299691225f73 | user avatar hash                                             |
+| guild_name   | :white_check_mark: | Trenite                          | guild name                                                   |
+| guild_avatar | :white_check_mark: | 6e4174e86c4b36be80d2159f8214788a | guild avatar hash                                            |
+| guild_id     | :white_check_mark: | 683026970606567440               | guild id                                                     |
+| member_count | :x:                | 94                               | guild member count                                           |
+| background   | :white_check_mark: | discord                          | [discord, default, default_small, minecraft, fortnite] / url |
+| status       | :x:                | dnd                              | [online, idle, dnd, offline, none]                           |
+| greet_user   | :x:                | true                             | boolean                                                      |
 
 ### Todo
 - optional guild icon
@@ -35,6 +36,7 @@ http://cdn.trenite.tk/setup/welcome
 &user_avatar=f76492e43b50b60ad4a3299691225f73
 &background=discord
 &status=dnd
+&greet_user=false
 ```
 
 ## Examples 
