@@ -6,7 +6,19 @@ registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium"
 
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
-		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status, greet_user } = req.query;
+		var {
+			user_tag,
+			user_id,
+			user_avatar,
+			guild_name,
+			guild_avatar,
+			guild_id,
+			member_count,
+			background,
+			status,
+			greet_user,
+			custom_text,
+		} = req.query;
 		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !user_avatar || !background) {
 			throw "query invalid";
 		}
@@ -126,11 +138,28 @@ module.exports = (app) => {
 
 		ctx.fillStyle = "white";
 		ctx.font = `50px "Whitney Medium"`;
+
+		let textarray = [`Welcome ${user_tag}`, `Welcome to ${guild_name}`, custom_text || ""];
+
 		if ((greet_user || "").toLowerCase() === "true") {
-			ctx.fillText(`Welcome ${user_tag}`, width / 2, 100);
+			ctx.fillText(custom_text ? textarray[2] : textarray[0], width / 2, 100);
 		} else {
-			ctx.fillText(`Welcome to ${guild_name}`, width / 2, 100);
+			ctx.fillText(custom_text ? textarray[2] : textarray[1], width / 2, 100);
 		}
+
+		//------------------------------------------------------------------------------------------
+
+		// samuels selbstschwanzlutsch :
+
+		// if (custom_text) {
+		// 	text = custom_text;
+		// } else if ((greet_user || "").toLowerCase() === "true") {
+		// 	text = `Welcome ${user_tag}`;
+		// } else {
+		// 	text = `Welcome to ${guild_name}`;
+		// }
+
+		// ctx.fillText(text, width / 2, 100);
 
 		if (member_count) {
 			ctx.fillText(`Member #${member_count}`, width / 2, 400);
