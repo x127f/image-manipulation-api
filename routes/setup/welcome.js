@@ -11,7 +11,7 @@ module.exports = (app) => {
 			throw "query invalid";
 		}
 
-		const back = new Image();
+		var back = new Image();
 		switch (background) {
 			case "default":
 				back.src = __dirname + "/../../assets/backgrounds/welcome/background.png";
@@ -22,6 +22,8 @@ module.exports = (app) => {
 			case "discord":
 				back.src = __dirname + "/../../assets/backgrounds/welcome/discordSmall.png";
 				break;
+			default:
+				back = await loadImage(background);
 		}
 		let style;
 		switch (status) {
@@ -37,6 +39,7 @@ module.exports = (app) => {
 			case "offline":
 				style = "#747f8d";
 		}
+		let statusarray = ["online", "dnd", "idle", "offline"];
 
 		const canvas = createCanvas(1000, 500);
 		const ctx = canvas.getContext("2d");
@@ -51,7 +54,6 @@ module.exports = (app) => {
 			avatar = await loadImage(`https://cdn.discordapp.com/embed/avatars/${user_tag.split("#")[1] % 5}.png?size=128`);
 		}
 
-		// var fonts = await fontList.getFonts();
 		ctx.drawImage(back, 0, 0, width, height);
 
 		var avatarWidth = 150;
@@ -66,6 +68,7 @@ module.exports = (app) => {
 		ctx.drawImage(avatar, x, y, avatarWidth, avatarWidth);
 		ctx.restore();
 
+		// if (status in statusarray) {
 		if (status != "none") {
 			if (background == "discord") {
 				// draw grey background circle below status indicator
@@ -113,6 +116,7 @@ module.exports = (app) => {
 				ctx.stroke();
 			}
 		}
+		// }
 
 		ctx.fillStyle = "white";
 		ctx.font = `50px "Whitney Medium"`;
