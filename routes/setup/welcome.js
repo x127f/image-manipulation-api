@@ -7,7 +7,7 @@ registerFont(__dirname + "/../../assets/whitney.ttf", { family: "Whitney Medium"
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
 		var { user_tag, user_id, user_avatar, guild_name, guild_avatar, guild_id, member_count, background, status, greet_user } = req.query;
-		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !user_avatar || !background || !greet_user) {
+		if (!user_tag || !user_id || !guild_name || !guild_avatar || !guild_id || !user_avatar || !background) {
 			throw "query invalid";
 		}
 
@@ -126,7 +126,7 @@ module.exports = (app) => {
 
 		ctx.fillStyle = "white";
 		ctx.font = `50px "Whitney Medium"`;
-		if (greet_user.toLowerCase() === "true") {
+		if ((greet_user || "").toLowerCase() === "true") {
 			ctx.fillText(`Welcome ${user_tag}`, width / 2, 100);
 		} else {
 			ctx.fillText(`Welcome to ${guild_name}`, width / 2, 100);
