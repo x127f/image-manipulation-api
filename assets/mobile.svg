@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg"  width="128" height="192" viewBox="0 0 128w 192" class="mask-1l8v16 svg-2V3M55" aria-hidden="true">
+	<rect width="128" height="192" x="0" y="0" fill="#43b581" mask="url(#svg-mask-status-online-mobile)" class="pointerEvents-2zdfdO">
+	</rect>
+
+	<mask id="svg-mask-status-online-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+		<rect fill="white" x="0" y="0" width="1" height="1" rx="0.1875" ry="0.125"></rect>
+		<rect fill="black" x="0.125" y="0.16666666666666666" width="0.75" height="0.5"></rect>
+		<ellipse fill="black" cx="0.5" cy="0.8333333333333334" rx="0.125" ry="0.08333333333333333"></ellipse>
+	</mask>
+</svg>
