@@ -21,11 +21,7 @@ module.exports = (app) => {
 		if (background) {
 			background = await loadImage(background);
 
-			if (!size)
-				size =
-					font === "lypix-font"
-						? background.width / (text.length / 1.3)
-						: background.width / (text.length / 1.5);
+			if (!size) size = font === "lypix-font" ? background.width / (text.length / 1.3) : background.width / (text.length / 1.5);
 			if (!x) x = background.width / 2;
 			if (!y) y = background.height / 2 - size / 1.5;
 		} else {
@@ -73,8 +69,8 @@ module.exports = (app) => {
 		}
 		ctx.fillText(text, x, y + size);
 
-		let buffer = canvas.toBuffer("image/jpeg");
-		res.set("Content-Type", "image/jpeg");
+		let buffer = canvas.toBuffer("image/png");
+		res.set("Content-Type", "image/png");
 		res.send(buffer);
 	});
 };
