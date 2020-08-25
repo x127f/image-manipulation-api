@@ -145,6 +145,8 @@ module.exports = async (app) => {
 			}
 		}
 
-		return res.set("content-type", "image/png").send(canvas.toBuffer());
+		let buffer = canvas.toBuffer("image/jpeg");
+		res.set("Content-Type", "image/jpeg");
+		return res.send(buffer);
 	});
 };

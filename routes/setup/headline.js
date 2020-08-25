@@ -73,8 +73,8 @@ module.exports = (app) => {
 		}
 		ctx.fillText(text, x, y + size);
 
-		let buffer = canvas.toBuffer();
-		res.set("Content-Type", "image/png");
+		let buffer = canvas.toBuffer("image/jpeg");
+		res.set("Content-Type", "image/jpeg");
 		res.send(buffer);
 	});
 };
