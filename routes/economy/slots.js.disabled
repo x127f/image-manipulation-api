@@ -1,7 +1,5 @@
 const GIFEncoder = require("gifencoder");
 const { createCanvas, loadImage, Image } = require("canvas");
-const fontkit = require("fontkit");
-const font = fontkit.openSync(__dirname + "/../../assets/AppleColorEmoji.ttc").fonts[0];
 
 module.exports = async (app) => {
 	var slotimage = await loadImage(`${__dirname}/../../assets/backgrounds/slots.png`);
