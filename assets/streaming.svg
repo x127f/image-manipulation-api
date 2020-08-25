@@ -1,7 +1,0 @@
-<svg  xmlns="http://www.w3.org/2000/svg" width="128" height="102" viewBox="0 0 128 128" class="mask-1l8v16 svg-2V3M55" aria-hidden="true">
-	<rect width="128" height="128" x="0" y="0" fill="#593695" mask="url(#svg-mask-status-streaming)" class="pointerEvents-2zdfdO"></rect>
-	<mask id="svg-mask-status-streaming" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-		<circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
-		<polygon fill="black" points="0.35,0.25 0.78301275,0.5 0.35,0.75"></polygon>
-	</mask>
-</svg>
