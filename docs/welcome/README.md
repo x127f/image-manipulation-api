@@ -18,6 +18,8 @@
 | status       | :x:                | dnd                              | [online, idle, dnd, offline, none]                           |
 | greet_user   | :x:                | true                             | boolean                                                      |
 | custom_text  | :x:                | welcome to hanamura              | text                                                         |
+| shadow       | :x:                | 2                                | integer                                                      |
+| font         | :x:                | Burbank Big Condensed            | [Burbank Big Condensed, Lypix, Arial, Times New Roman, Whitney Medium] |
 
 ### Todo
 - optional guild icon
