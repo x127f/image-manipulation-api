@@ -1,4 +1,5 @@
 const { createCanvas, loadImage, Image } = require("canvas");
+const e = require("express");
 const fs = require("fs").promises;
 var background;
 (async () => {
@@ -7,8 +8,12 @@ var background;
 
 module.exports = async (err, req, res, next) => {
 	if (err) {
+		console.error(err);
 		res.set("Content-Type", "image/png");
-		var file = err.replace(/[^a-zA-Z0-9 ]/g, "").replace(/\s/g, "_");
+		var file = err
+			.toString()
+			.replace(/[^a-zA-Z0-9 ]/g, "")
+			.replace(/\s/g, "_");
 
 		var path = `${__dirname}/../cache/errors/${file}.png`;
 
