@@ -1,6 +1,11 @@
 const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
+require("./lib/roundRect");
+require("./lib/drawCircleImage");
+require("./lib/drawStatusIndicator");
+require("./lib/loadBackground");
+require("./lib/loadAvatar");
 require("./lib/loadImage");
 require("express-async-errors");
 const config = require("./config.json");
