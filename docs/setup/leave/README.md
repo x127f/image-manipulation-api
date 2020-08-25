@@ -37,6 +37,6 @@ http://cdn.trenite.tk/setup/leave
 
     <kbd>
 
-    <img src=""/>
+    <img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/setup/leave/leave.png"/>
 
     <kbd/>
