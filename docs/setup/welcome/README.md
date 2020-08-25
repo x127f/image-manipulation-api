@@ -37,6 +37,6 @@ http://cdn.trenite.tk/setup/welcome
 
     <kbd>
 
-    <img src=""/>
+    <img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/setup/welcome/welcome.png"/>
 
     <kbd/>
