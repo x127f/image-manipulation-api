@@ -1,14 +1,4 @@
-const { createCanvas, registerFont, loadImage } = require("canvas");
-
-registerFont(__dirname + "/../../assets/lypix-font.ttf", {
-	family: "lypix-font",
-});
-
-registerFont(__dirname + "/../../assets/BurbankBigCondensedBlack.ttf", {
-	family: "Burbank Big Condensed Black",
-	weight: "900",
-	style: "normal",
-});
+const { createCanvas, loadImage } = require("canvas");
 
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
@@ -20,6 +10,7 @@ module.exports = (app) => {
 		if (!color) color = "black";
 		if (background) {
 			background = await loadImage(background);
+			// TODO fix background
 
 			if (!size)
 				size =
@@ -73,8 +64,8 @@ module.exports = (app) => {
 		}
 		ctx.fillText(text, x, y + size);
 
-		let buffer = canvas.toBuffer("image/jpeg");
-		res.set("Content-Type", "image/jpeg");
+		let buffer = canvas.toBuffer("image/png");
+		res.set("Content-Type", "image/png");
 		res.send(buffer);
 	});
 };
