@@ -10,6 +10,7 @@ async function main(app) {
 		.map((category) => {
 			var routes = fs.readdirSync(`${__dirname}/${category}/`);
 			return routes.map(async (file) => {
+				if (!file.endsWith(".js")) return;
 				var router = express.Router();
 				var route = file.split(".")[0];
 				router.app = app;

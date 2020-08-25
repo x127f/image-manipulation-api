@@ -9,3 +9,5 @@
 -   Custom user fonts
 -   Transparency
 -   x & y for every tile
+-   Trello Card
+-   Add more fonts (user upload)

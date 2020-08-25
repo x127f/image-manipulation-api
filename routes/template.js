@@ -1,4 +1,4 @@
-const { createCanvas, loadImage, Image, registerFont } = require("canvas");
+const { createCanvas, loadImage } = require("canvas");
 
 module.exports = (app) => {
 	app.get("/", async (req, res) => {
