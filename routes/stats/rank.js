@@ -24,8 +24,8 @@ module.exports = (app) => {
 			throw "query invalid";
 		}
 
-		if (!mode) mode = "card";
-		if (!background) background = "default";
+		if (!mode) mode = "left";
+		if (!background) background = "rankcard";
 		if (!progress_background) progress_background = "#43474e";
 		if (!status) status = "none";
 		if (!shadow) shadow = 20;
@@ -40,13 +40,13 @@ module.exports = (app) => {
 		var height = 0;
 
 		if (mode === "card") {
-			width = 1000;
+			width = 800;
 			height = 400;
 		} else if (mode === "left") {
 			width = 1000;
 			height = 250;
 		} else {
-			throw "invalid error";
+			throw "invalid mode";
 		}
 
 		const canvas = createCanvas(width, height);
@@ -65,48 +65,61 @@ module.exports = (app) => {
 		ctx.shadowOffsetY = shadow;
 
 		await ctx.drawBackground(background);
+		let avatar = await ctx.loadAvatar(user_id, user_avatar, user_tag, 256);
 
 		if (mode === "card") {
-			var barX = widthStep * 20;
-			var barY = heightStep * 60;
-			var barHeight = heightStep * 10;
-			var barWidth = widthStep * 60;
+			var barX = widthStep * 10;
+			var barY = heightStep * 65;
+			var barHeight = heightStep * 15;
+			var barWidth = widthStep * 80;
 
-			var xpTextY = heightStep * 50;
-			var textHeight = heightStep * 85;
+			var xpTextY = heightStep * 96;
+			var xpTextX = widthStep * 2;
+			var rankLevelY = heightStep * 15;
+			var userTextY = heightStep * 38;
+			var userTextX = width / 2 + 175 / 2;
 
-			var avatarX = width / 2;
-			var avatarY = height / 4;
+			var avatarX = 175 / 2;
+			var avatarY = avatarX;
 
 			ctx.fillStyle = primary_color;
 
 			ctx.font = `40px "${font}"`;
 			ctx.textAlign = "center";
-			ctx.fillText(user_tag, avatarX, textHeight);
-
-			ctx.textAlign = "right";
-			ctx.font = `35px "${font}"`;
-			var textWidth = widthStep * 20;
-			ctx.fillText("LEVEL", textWidth, textHeight);
-			textWidth += ctx.measureText("LEVEL").width;
-			ctx.font = `50px "${font}"`;
-			ctx.fillText(`${level}`, textWidth, textHeight);
+			ctx.fillText(user_tag, userTextX, userTextY);
 
 			ctx.textAlign = "left";
 			ctx.font = `35px "${font}"`;
-			var textWidth = widthStep * 70;
-			ctx.fillText("RANK", textWidth, textHeight);
-			textWidth += ctx.measureText("RANK").width;
+			var textWidth = widthStep * 27;
+			ctx.fillText("LEVEL", textWidth, rankLevelY);
+			textWidth += ctx.measureText("LEVEL ").width;
 			ctx.font = `50px "${font}"`;
-			ctx.fillText(`#${rank}`, textWidth, textHeight);
-			textWidth += ctx.measureText(`#${rank} `).width;
+			ctx.fillText(`${level}`, textWidth, rankLevelY);
+
+			ctx.textAlign = "right";
+			var textWidth = widthStep * 95;
+			ctx.font = `50px "${font}"`;
+			ctx.fillText(`#${rank}`, textWidth, rankLevelY);
+			textWidth -= ctx.measureText(`#${rank} `).width;
+
+			ctx.font = `35px "${font}"`;
+			ctx.fillText("RANK", textWidth, rankLevelY);
+
+			ctx.font = `30px "${font}"`;
+			ctx.textAlign = "left";
+			ctx.fillStyle = primary_color;
+			ctx.fillText(xp, xpTextX, xpTextY); // max xp
+			ctx.fillStyle = "grey";
+			var maxXPtext = `/ ${max} XP`;
+			ctx.fillText(maxXPtext, xpTextX + ctx.measureText(xp).width, xpTextY); // current xp
 		} else if (mode === "left") {
 			var barHeight = heightStep * 15;
 			var barX = widthStep * 25;
 			var barY = heightStep * 80;
 			var barWidth = widthStep * 70;
 
-			var xpTextY = heightStep * 76;
+			var xpTextY = heightStep * 63;
+			var xpTextX = barX + barWidth;
 
 			var avatarX = width / 9;
 			var avatarY = height / 2;
@@ -114,6 +127,7 @@ module.exports = (app) => {
 			var textWidth = widthStep * 60;
 			var textHeight = heightStep * 26;
 
+			ctx.fillStyle = text_color;
 			ctx.font = `40px "${font}"`;
 			ctx.textAlign = "left";
 			ctx.fillText(user_tag, barX, heightStep * 63);
@@ -131,23 +145,21 @@ module.exports = (app) => {
 			textWidth += ctx.measureText("LEVEL").width;
 			ctx.font = `50px "${font}"`;
 			ctx.fillText(`#${level}`, textWidth, textHeight);
-		}
 
-		let avatar = await ctx.loadAvatar(user_id, user_avatar, user_tag, 256);
+			ctx.font = `30px "${font}"`;
+			ctx.textAlign = "right";
+			ctx.fillStyle = "grey";
+			var maxXPtext = `/ ${max} XP`;
+			ctx.fillText(maxXPtext, xpTextX, xpTextY); // current xp
+			ctx.fillStyle = primary_color;
+			ctx.fillText(xp, xpTextX - ctx.measureText(maxXPtext).width, xpTextY); // max xp
+		}
 
 		ctx.drawCircleImage(avatar, avatarX, avatarY, 175); // avatar
 		ctx.drawStatusIndicator(avatarX + 60, avatarY + 60, status, background == "discord"); // status
 
 		bar(ctx, barX, barY, barWidth, barHeight, progress_background);
 		bar(ctx, barX, barY, widthStep * progress, barHeight, primary_color);
-
-		ctx.font = `30px "${font}"`;
-		ctx.textAlign = "right";
-		ctx.fillStyle = "grey";
-		var maxXPtext = `/ ${max} XP`;
-		ctx.fillText(maxXPtext, barX + barWidth, xpTextY); // current xp
-		ctx.fillStyle = primary_color;
-		ctx.fillText(xp, barX + barWidth - ctx.measureText(maxXPtext).width, xpTextY); // max xp
 
 		let buffer = canvas.toBuffer("image/png");
 		res.set("Content-Type", "image/png");
