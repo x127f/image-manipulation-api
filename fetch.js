@@ -1,7 +1,8 @@
 const crypto = require("crypto");
 const fs = require("fs");
 const nodeFetch = require("node-fetch");
-const { secret } = require("./config.json");
+const { production } = require("./config.json");
+const { secret } = production;
 const { param } = require("express/lib/router");
 
 function generate(path, params, opts = { url: "https://cdn.trenite.tk" }) {
