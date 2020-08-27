@@ -1,3 +1,6 @@
+require("dotenv").config();
+process.env = { ...process.env, production: process.env.production == "true" };
+
 const express = require("express");
 const crypto = require("crypto");
 const fs = require("fs");
@@ -9,7 +12,8 @@ require("./lib/drawBackground");
 require("./lib/loadAvatar");
 require("./lib/loadImage");
 require("express-async-errors");
-const config = require("./config.json");
+var config = require("./config.json");
+config = process.env.production ? config.production : config.development;
 const app = express();
 const port = config.port;
 const routes = require("./routes");
@@ -22,7 +26,8 @@ fs.readdirSync(fonts).forEach((file) => {
 });
 
 app.use((req, res, next) => {
-	if (!config.production) return next();
+	res.set("Cache-Control", "public, max-age=31536000");
+	if (!process.env.production) return next();
 	if (!req.query || !Object.keys(req.query).length || !req.query.hash) throw "No query/hash specified";
 	var payload = { ...req.query };
 	delete payload.hash;

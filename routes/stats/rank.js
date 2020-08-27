@@ -268,7 +268,6 @@ module.exports = (app) => {
 		ctx.drawStatusIndicator(avatarX + 50, avatarY + 50, status, background); // status
 
 		var progress = lerp(0, percentageBarWidth, percent);
-		console.log(percent, progress);
 
 		bar(ctx, barX, barY, barWidth, barHeight, progress_background);
 		bar(ctx, barX, barY, widthStep * progress, barHeight, primary_color);

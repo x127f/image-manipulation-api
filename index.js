@@ -1,9 +1,7 @@
-const config = require("./config.json");
 var cluster = require("cluster");
-var path = require("path");
 
 var cores = require("os").cpus().length;
-if (!config.production) cores = 1;
+if (!process.env.production) cores = 1;
 
 if (cluster.isMaster) {
 	for (var i = 0; i < cores; i++) {
