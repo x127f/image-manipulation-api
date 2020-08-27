@@ -10,7 +10,8 @@ function generate(path, params, opts = { url: "https://cdn.trenite.tk" }) {
 }
 
 async function fetch(...args) {
-	return nodeFetch(generate.apply(this, args));
+	var res = await nodeFetch(generate.apply(this, args));
+	return await res.buffer();
 }
 
 function hash(params) {
