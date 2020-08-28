@@ -1,5 +1,5 @@
 require("dotenv").config();
-process.env = { ...process.env, production: process.env.production == "true" };
+process.env = { ...process.env, production: process.env.production == "true" || process.env.production };
 
 const express = require("express");
 const crypto = require("crypto");

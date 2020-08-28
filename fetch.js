@@ -16,6 +16,7 @@ async function fetch(...args) {
 }
 
 function hash(params) {
+	delete params.hash;
 	Object.keys(params).forEach((key) => {
 		try {
 			if (typeof params[key] === "number") params[key] = params[key].toString();
