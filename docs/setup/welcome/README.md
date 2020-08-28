@@ -38,6 +38,6 @@ http://cdn.trenite.tk/setup/welcome
 
     <kbd>
 
-    <img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/setup/welcome/welcome.png"/>
+    <img src="https://cdn.discordapp.com/attachments/737401768098398389/748981628084420608/welcome.png"/>
 
     <kbd/>

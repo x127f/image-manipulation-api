@@ -32,6 +32,6 @@
 
         <kbd>
 
-        <img src="https://github.com/Trenite/image-manipulation-api/blob/master/docs/setup/headline/headline.png"/>
+        <img src="https://cdn.discordapp.com/attachments/737401768098398389/748981589882699937/headline.png"/>
 
         <kbd/>
