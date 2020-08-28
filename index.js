@@ -1,4 +1,6 @@
 var cluster = require("cluster");
+require("dotenv").config();
+process.env = { ...process.env, production: process.env.production == "true" };
 
 var cores = require("os").cpus().length;
 if (!process.env.production) cores = 1;
