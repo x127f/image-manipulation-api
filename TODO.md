@@ -13,3 +13,4 @@ Trello Card
 Add more fonts (user upload)
 Graphs (Statistics)
 image filters (create glitchy gif, distortion, etc...)
+QR-Code gen
