@@ -1,5 +1,8 @@
 require("dotenv").config();
-process.env = { ...process.env, production: process.env.production == "true" || process.env.production };
+process.env = {
+	...process.env,
+	production: false,
+};
 
 const express = require("express");
 const crypto = require("crypto");
@@ -28,7 +31,8 @@ fs.readdirSync(fonts).forEach((file) => {
 app.use((req, res, next) => {
 	res.set("Cache-Control", "public, max-age=31536000");
 	if (!process.env.production) return next();
-	if (!req.query || !Object.keys(req.query).length || !req.query.hash) throw "No query/hash specified";
+	if (!req.query || !Object.keys(req.query).length || !req.query.hash)
+		throw "No query/hash specified";
 	var payload = { ...req.query };
 	delete payload.hash;
 	payload = JSON.stringify(payload);
@@ -41,6 +45,8 @@ app.use((req, res, next) => {
 });
 
 routes(app);
+app.use(express.static("website"));
+app.use("/api/docs", express.static("docs"));
 
 app.use(errorHandler);
 
