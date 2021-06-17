@@ -19,12 +19,17 @@
 	},
 	"homepage": "https://github.com/Trenite/image-manipulation-api#readme",
 	"dependencies": {
+		"benny": "^3.6.15",
 		"canvas": "^2.6.1",
 		"dotenv": "^8.2.0",
 		"express": "^4.17.1",
 		"express-async-errors": "^3.1.1",
 		"gifencoder": "^2.0.1",
 		"handlebars": "^4.7.6",
-		"node-fetch": "^2.6.0"
+		"node-fetch": "^2.6.0",
+		"puppeteer": "^10.0.0"
+	},
+	"devDependencies": {
+		"sharp": "^0.28.3"
 	}
 }
