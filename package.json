@@ -28,5 +28,8 @@
 		"handlebars": "^4.7.6",
 		"node-fetch": "^2.6.0",
 		"puppeteer": "^10.0.0"
+	},
+	"devDependencies": {
+		"sharp": "^0.28.3"
 	}
 }

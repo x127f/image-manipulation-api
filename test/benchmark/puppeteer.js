@@ -20,18 +20,19 @@ const path = require("path");
 			const page = await browser.newPage();
 			await page.screenshot({ type: "png" });
 		}),
-		add("blank png full quality", async () => {
-			const page = await browser.newPage();
-			await page.screenshot({ type: "jpeg" });
-		}),
-		add("blank png low quality", async () => {
-			const page = await browser.newPage();
-			await page.screenshot({ type: "jpeg", quality: 50 });
-		}),
+
 		add("blank png reduced latency", async () => {
 			await prePage.screenshot({ type: "png" });
 		}),
 
+		add("blank jpeg full quality", async () => {
+			const page = await browser.newPage();
+			await page.screenshot({ type: "jpeg" });
+		}),
+		add("blank jpeg low quality", async () => {
+			const page = await browser.newPage();
+			await page.screenshot({ type: "jpeg", quality: 50 });
+		}),
 		save({
 			file: "puppeteer",
 			folder: path.join(__dirname, "results"),
