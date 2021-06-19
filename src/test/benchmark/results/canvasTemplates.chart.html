@@ -12,11 +12,11 @@
         order: row;
       }
     </style>
-    <title>Canvas</title>
+    <title>Canvas Templates</title>
   </head>
   <body>
     <div style="max-width: 800px">
-      <canvas id="chart1624097876071" width="16" height="9"></canvas>
+      <canvas id="chart1624099523805" width="16" height="9"></canvas>
     </div>
     <script>
       const format = (num) => {
@@ -34,49 +34,28 @@
 
         return chunked.map((chunk) => chunk.join("")).join(" ");
       };
-      const ctx1624097876071 = document
-        .getElementById("chart1624097876071")
+      const ctx1624099523805 = document
+        .getElementById("chart1624099523805")
         .getContext("2d");
-      const chart1624097876071 = new Chart(ctx1624097876071, {
+      const chart1624099523805 = new Chart(ctx1624099523805, {
         type: "bar",
         data: {
           labels: [
-            "png buffer",
-            "png data url",
-            "png with background",
-            "jpeg buffer full quality",
-            "jpeg buffer low quality",
-            "jpeg data url",
-            "jpeg with background",
-            "p5js raw",
-            "p5js -> sharp png",
-            "own Renderer raw",
-            "RAW buffer",
-            "own Renderer -> sharp png",
-            "RAW -> sharp png",
-            "RAW -> sharp jpeg",
+            "blank",
+            "rank card",
+            "rank card slow png",
+            "rank card without avatar",
+            "rank card density: 0.5",
           ],
           datasets: [
             {
-              data: [
-                6.51, 6.86, 5.8, 26.82, 27.93, 27.92, 24.2, 76.3, 38.26, 60.77,
-                88.35, 44.07, 52.04, 40.7,
-              ],
+              data: [55.7, 5.5, 5.2, 11.6, 8.8],
               backgroundColor: [
                 "rgba(63, 142, 252, 0.8)",
                 "rgba(116, 165, 127, 0.8)",
                 "rgba(158, 206, 154, 0.8)",
                 "rgba(58, 175, 185, 0.8)",
                 "rgba(79, 124, 172, 0.8)",
-                "rgba(113, 128, 172, 0.8)",
-                "rgba(182, 140, 184, 0.8)",
-                "rgba(219, 108, 121, 0.8)",
-                "rgba(189, 79, 108, 0.8)",
-                "rgba(138, 79, 125, 0.8)",
-                "rgba(95, 75, 102, 0.8)",
-                "rgba(204, 139, 134, 0.8)",
-                "rgba(215, 129, 106, 0.8)",
-                "rgba(245, 143, 41, 0.8)",
               ],
               borderColor: [
                 "rgba(63, 142, 252, 1)",
@@ -84,15 +63,6 @@
                 "rgba(158, 206, 154, 1)",
                 "rgba(58, 175, 185, 1)",
                 "rgba(79, 124, 172, 1)",
-                "rgba(113, 128, 172, 1)",
-                "rgba(182, 140, 184, 1)",
-                "rgba(219, 108, 121, 1)",
-                "rgba(189, 79, 108, 1)",
-                "rgba(138, 79, 125, 1)",
-                "rgba(95, 75, 102, 1)",
-                "rgba(204, 139, 134, 1)",
-                "rgba(215, 129, 106, 1)",
-                "rgba(245, 143, 41, 1)",
               ],
               borderWidth: 1,
             },
@@ -104,7 +74,7 @@
           },
           title: {
             display: true,
-            text: "Canvas",
+            text: "Canvas Templates",
             fontSize: 16,
             padding: 20,
           },

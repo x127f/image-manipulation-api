@@ -1,14 +1,14 @@
 import Canvas from "canvas";
 import { add, complete, cycle, save, suite } from "benny";
 import path from "path";
-import sharp from "sharp";
 import p5 from "p5js-node";
-import { Render } from "../../util/Render";
+import { NodeRender } from "../../util/NodeRender";
 
 const p = new p5();
 
 suite(
-	"Canvas",
+	"Canvas Encoding",
+	cycle((result) => console.log("finish", result.name)),
 	add("png buffer", () => {
 		const canvas = Canvas.createCanvas(1920, 1080);
 		canvas.toBuffer();
@@ -71,13 +71,13 @@ suite(
 			p.rect(10, 10, 50, 50);
 			p.noLoop();
 
-			resolve(await new Render(p.canvas).toPNG());
+			resolve(await new NodeRender(p.canvas).toPNG());
 		});
 	}),
 	add("own Renderer raw", () => {
 		const canvas = Canvas.createCanvas(1920, 1080);
 
-		return new Render(canvas)
+		return new NodeRender(canvas)
 			.fill("black")
 			.rect({ x: 200, y: 500, width: 250, height: 250, radius: 125 })
 			.toBuffer("raw");
@@ -90,20 +90,23 @@ suite(
 	add("own Renderer -> sharp png", () => {
 		const canvas = Canvas.createCanvas(1920, 1080);
 
-		return new Render(canvas).fill("black").rect({ x: 200, y: 500, width: 250, height: 250, radius: 125 }).toPNG();
+		return new NodeRender(canvas)
+			.fill("black")
+			.rect({ x: 200, y: 500, width: 250, height: 250, radius: 125 })
+			.toPNG();
 	}),
 	add("RAW -> sharp png", async () => {
 		const canvas = Canvas.createCanvas(1920, 1080);
 
-		await new Render(canvas).toPNG();
+		await new NodeRender(canvas).toPNG();
 	}),
 	add("RAW -> sharp jpeg", async () => {
 		const canvas = Canvas.createCanvas(1920, 1080);
-		await new Render(canvas).toJPEG();
+		await new NodeRender(canvas).toJPEG();
 	}),
 
 	save({
-		file: "canvas",
+		file: "canvasEncoding",
 		folder: path.join(__dirname, "results"),
 		version: require("../../../package.json").version,
 		details: true,
