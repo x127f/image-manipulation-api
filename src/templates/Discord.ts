@@ -1,10 +1,7 @@
-import { Template } from "./Template";
-import path from "path";
+// @ts-nocheck
+import { isBrowser, Template, TemplateOptions } from "./Template";
 import "missing-native-js-functions";
 import { Render } from "../util/Render";
-const RankCardCenter = require("../../assets/templates/discord/RankCardCenter.svg");
-
-console.log(RankCardCenter);
 
 type RankCardElements =
 	| "labelRank"
@@ -21,13 +18,18 @@ type RankCardElements =
 	| "status"
 	| "background";
 
+export type RankCardOptions = TemplateOptions & { type: "center" | "right" | "left" };
+
 export class RankCard extends Template<RankCardElements, "primary_color" | "text_color"> {
 	max?: number;
 	xp?: number;
 	discriminator?: string;
 
-	constructor(type: "center" | "right" | "left" = "center") {
-		super();
+	constructor(public opts: RankCardOptions) {
+		super(opts);
+
+		if (isBrowser) opts.path = require("../../assets/templates/discord/RankCardCenter.svg").default;
+		else opts.path = require("path").join(__dirname, "..", "..", "templates", "discord", "RankCardCenter.svg");
 	}
 
 	setUsername(username: string) {
@@ -69,7 +71,9 @@ export class RankCard extends Template<RankCardElements, "primary_color" | "text
 	setXP(value: number) {
 		this.setText("xp", `${value}`);
 		this.xp = value;
+		// @ts-ignore
 		const maxPercent = Number(this.dom("#progressBackground").attr("width").slice(0, -1));
+		// @ts-ignore
 		const percentage = Render.percentage(maxPercent, Render.percentage(this.max, value));
 		this.setAttribute("progress", "width", `${percentage}%`);
 	}

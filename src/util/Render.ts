@@ -1,3 +1,4 @@
+// @ts-nocheck
 export type LiteralUnion<T, U = string> = T | (U & Record<never, never>);
 
 export type RenderMode = "corner" | "corners" | "center" | "radius";
@@ -31,7 +32,7 @@ export class Render {
 	public ctx: CanvasRenderingContext2D;
 	public width: number;
 	public height: number;
-	public mode: RenderMode;
+	public mode: RenderMode = "corner";
 	public fontSettings: {
 		size: number;
 		style: string;
@@ -59,7 +60,7 @@ export class Render {
 
 	render(callback: (frame?: number, ...args: any[]) => any, frameRate: number = 60, amount: number = 0) {
 		var i = 0;
-		const interval = setInterval(
+		const interval: any = setInterval(
 			async (frame) => {
 				try {
 					if (amount > 0) i++;
@@ -187,7 +188,9 @@ export class Render {
 		return this;
 	}
 
-	stroke(value: LiteralUnion<CanvasLineJoin | CanvasLineCap, number | string | CanvasGradient | CanvasPattern>) {
+	stroke(
+		value: LiteralUnion<CanvasLineJoin | CanvasLineCap, number | null | string | CanvasGradient | CanvasPattern>
+	) {
 		if (value == null) value = "transparent";
 
 		if (typeof value == "number") this.ctx.lineWidth = value;
@@ -263,11 +266,10 @@ export class Render {
 	rect(opts: { x: number; y: number; width?: number; height?: number; radius?: Radius }) {
 		if (!opts.width) opts.width = opts.height;
 		if (!opts.height) opts.height = opts.width;
-		// @ts-ignore
 		var { height, radius, y, x, width } = this.modeAdjust(this.mode, opts);
 		if (this.mode === "center") {
-			x += opts.width * 0.5;
-			y += opts.height * 0.5;
+			x += opts?.width * 0.5;
+			y += opts?.height * 0.5;
 		}
 		this.ctx.beginPath();
 
@@ -330,9 +332,7 @@ export class Render {
 				width: opts.width,
 				height: opts.height,
 			};
-		}
-		// @ts-ignore
-		else opts = this.modeAdjust(this.mode, opts);
+		} else opts = this.modeAdjust(this.mode, opts);
 		this.ctx.beginPath();
 
 		opts.x += opts.width;
@@ -374,7 +374,6 @@ export class Render {
 		opts.width = opts.width * opts.scale;
 		opts.height = opts.height * opts.scale;
 
-		// @ts-ignore
 		opts = this.modeAdjust(this.mode, opts);
 
 		if (!opts.cropX) opts.cropX = 0;

@@ -1,39 +1,66 @@
+// @ts-nocheck
 import path from "path";
 import { CheerioAPI } from "cheerio";
-import fetch from "../util/fetch";
-import * as Discord from "./Discord";
+import fetchImage from "../util/fetchImage";
 
-export { Discord };
+export type TemplateOptions = {
+	path?: string;
+};
+
+export var isBrowser = false;
+export var isNode = false;
+
+try {
+	isBrowser = window;
+} catch (error) {
+	isNode = global;
+}
+
+console.log({ isBrowser, isNode });
 
 export class Template<T extends string, G extends string> {
 	static cache: Record<string, string> = {};
+	// @ts-ignore
 	dom: CheerioAPI;
 
-	constructor() {}
+	constructor(public opts: TemplateOptions) {}
 
-	init() {
+	async init() {
+		if (isBrowser) {
+			const content = await this.loadUrl(this.opts.path);
+			this.useJquery(content);
+		} else if (isNode) {
+			const content = this.loadFile(this.opts.path);
+			this.useCheerio(content);
+		}
 		this.dom("svg").attr("xmlns:xlink", "http://www.w3.org/1999/xlink");
+		return this;
 	}
 
-	static loadFile(path: string) {
+	loadFile(path: string) {
 		const content = Template.cache[path] || require("fs").readFileSync(path, { encoding: "utf8" });
 		Template.cache[path] = content;
-		const template = new Template();
-		template.dom = require("cheerio").load(content, { xmlMode: true });
-		template.init();
-		return template;
+		return content;
 	}
 
-	static async loadBrowser(url: string) {
-		var content = Template.cache[url];
-		if (!content) content = await await fetch(url).text();
+	useCheerio(content: string) {
+		this.dom = require("cheerio").load(content, { xmlMode: true });
+		return this;
+	}
 
-		const template = new Template();
+	async loadUrl(url: string) {
+		var content = Template.cache[url];
+		if (!content) content = await (await (globalThis.fetch || require("node-fetch"))(url)).text();
+		Template.cache[url] = content;
+		return content;
+	}
+
+	useJquery(content: string) {
 		const jQuery = require("jquery");
-		// @ts-ignore
-		template.dom = jQuery(jQuery.parseXML(content));
-		template.init();
-		return template;
+		const $ = jQuery(jQuery.parseXML(content));
+		this.dom = $.find.bind($);
+		this.dom.__proto__ = $.__proto__;
+		return this;
 	}
 
 	setImage(id: T, image: Buffer) {
@@ -43,8 +70,8 @@ export class Template<T extends string, G extends string> {
 	}
 
 	async loadImage(id: T, url: string) {
-		const image = await (await fetch(url)).buffer();
-		return this.setImage(id, image);
+		// @ts-ignore
+		return this.dom(`#${id}`).attr("href", await fetchImage(url));
 	}
 
 	async setBackground(value: Buffer | string) {
@@ -100,7 +127,7 @@ export class Template<T extends string, G extends string> {
 	}
 
 	toXML() {
-		return this.dom.xml ? this.dom.xml() : this.dom.html();
+		return this.dom.xml ? this.dom.xml() : this.dom("svg")[0].outerHTML;
 	}
 }
 
@@ -210,7 +237,7 @@ export class Pattern {
 		opts = { x: 0, y: 0, ...opts };
 		this.patterns.push({
 			type: "image",
-			href: `data:image/jpg;base64,${opts.image.toString("base64")}`,
+			href: `data:image/jpg;base64,${opts.image?.toString("base64")}`,
 			x: opts.x,
 			y: opts.y,
 			width: opts.width,
@@ -220,12 +247,12 @@ export class Pattern {
 	}
 
 	toXML() {
-		return `<pattern id="${this.id}" height="${this.opts.height}" width="${this.opts.width}" x="${
-			this.opts.x
-		}" y="${this.opts.y}" patternContentUnits="${this.opts.contentUnits}" patternTransform="${
-			this.opts.transform
-		}" patternUnits="${this.opts.patternUnits}" preserveAspectRatio="${this.opts.preserveAspectRatio}" viewBox="${
-			this.opts.viewBox
+		return `<pattern id="${this.id}" height="${this.opts?.height}" width="${this.opts?.width}" x="${
+			this.opts?.x
+		}" y="${this.opts?.y}" patternContentUnits="${this.opts?.contentUnits}" patternTransform="${
+			this.opts?.transform
+		}" patternUnits="${this.opts?.patternUnits}" preserveAspectRatio="${this.opts?.preserveAspectRatio}" viewBox="${
+			this.opts?.viewBox
 		}">
 
 			${this.patterns
@@ -237,3 +264,5 @@ export class Pattern {
 		</pattern>`;
 	}
 }
+
+globalThis.Template = Template;

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { Filter, ImageOptions, Render } from "./Render";
 import sharp, { JpegOptions, PngOptions } from "sharp";
 import { Canvas, Image, JpegConfig, NodeCanvasRenderingContext2D, PdfConfig, PngConfig, createCanvas } from "canvas";
