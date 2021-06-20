@@ -3,7 +3,7 @@ import { add, complete, cycle, save, suite } from "benny";
 import path from "path";
 import p5 from "p5js-node";
 import { NodeRender } from "../../util/NodeRender";
-import templates from "../../templates";
+import templates from "../../templates/Template";
 
 const p = new p5();
 

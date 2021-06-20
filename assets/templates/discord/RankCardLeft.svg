@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
+  <defs>
+    <mask id="mask-status-online-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <rect fill="white" x="0" y="0" width="1" height="1" rx="0.1875" ry="0.125"></rect>
+      <rect fill="black" x="0.125" y="0.16666666666666666" width="0.75" height="0.5"></rect>
+      <ellipse fill="black" cx="0.5" cy="0.8333333333333334" rx="0.125" ry="0.08333333333333333"></ellipse>
+    </mask>
+    <mask id="mask-status-online" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+    </mask>
+    <mask id="mask-status-idle" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <circle fill="black" cx="0.25" cy="0.25" r="0.375"></circle>
+    </mask>
+    <mask id="mask-status-dnd" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <rect fill="black" x="0.125" y="0.375" width="0.75" height="0.25" rx="0.125" ry="0.125"></rect>
+    </mask>
+    <mask id="mask-status-offline" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <circle fill="black" cx="0.5" cy="0.5" r="0.25"></circle>
+    </mask>
+    <mask id="mask-status-streaming" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <polygon fill="black" points="0.35,0.25 0.78301275,0.5 0.35,0.75"></polygon>
+    </mask>
+    <mask id="mask-avatar-nostatus" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+    </mask>
+    <mask id="mask-avatar" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <circle fill="black" cx="0.85" cy="0.85" r="0.175"></circle>
+    </mask>
+    <mask id="mask-avatar-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <rect fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667"></rect>
+    </mask>
+    <symbol id="status-streaming">
+      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)"></rect>
+    </symbol>
+    <symbol id="status-online">
+      <rect width="40" height="40" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online)"></rect>
+    </symbol>
+    <symbol id="status-offline">
+      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(214, 9.9%, 50.4%)" mask="url(#mask-status-offline)"></rect>
+    </symbol>
+    <symbol id="status-dnd">
+      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(359,  82.6%, 59.4%)" mask="url(#mask-status-dnd)"></rect>
+    </symbol>
+    <symbol id="status-online-mobile">
+      <rect width="40" height="45" x="35" y="20" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online-mobile)"></rect>
+    </symbol>
+    <symbol id="status-idle">
+      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)"></rect>
+    </symbol>
+  </defs>
+  <g class="text_color" font-family="Arial" font-size="35" fill="white">
+    <rect id="background" fill="rgb(47, 49, 54)" width="1000" height="300" rx="23.988" ry="23.988" />
+
+    <svg x="5%" y="40%" style="overflow: auto">
+      <image id="avatar" transform="translate(0,-75)" height="200" width="200" mask="url(#mask-avatar)" href="./avatar.png" />
+      <use x="150" y="75" id="status" href="#status-online" />
+    </svg>
+
+    <text x="30%" y="20%" dominant-baseline="middle">
+      <tspan id="labelLevel">Level</tspan>
+      <tspan id="level" class="primary_color" fill="#2d90ff">1</tspan>
+    </text>
+
+    <text x="95%" y="20%" text-anchor="end" dominant-baseline="middle">
+      <tspan id="labelRank">Rank</tspan>
+      <tspan id="rank" class="primary_color" fill="#2d90ff">#1</tspan>
+    </text>
+
+    <text x="30%" y="80%" dominant-baseline="middle">
+      <tspan id="username">Flam3rboy</tspan>
+      <tspan id="discriminator" class="primary_color" fill="#2d90ff">#0001</tspan>
+    </text>
+
+    <text x="95%" y="80%" text-anchor="end" dominant-baseline="middle">
+      <tspan class="primary_color" fill="#2d90ff" id="xp">50</tspan>
+      <tspan font-size="30" id="max">
+        / 100 XP
+      </tspan>
+    </text>
+
+    <rect id="progressBackground" x="30%" y="45%" width="65%" height="10%" fill="#43464e" rx="15" ry="15"></rect>
+    <rect id="progress" x="30%" y="45%" width="10%" height="10%" class="primary_color" fill="#2d90ff" rx="15" ry="15"></rect>
+  </g>
+</svg>

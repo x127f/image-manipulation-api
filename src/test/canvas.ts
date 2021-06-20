@@ -2,7 +2,7 @@ import Canvas from "canvas";
 import path from "path";
 import fs from "fs/promises";
 import { NodeRender } from "../util/NodeRender";
-import Templates from "../templates/";
+import Templates from "../templates/Template";
 
 async function main() {
 	const canvas = Canvas.createCanvas(1200, 630);
@@ -41,7 +41,7 @@ async function test() {
 		user_avatar: "448d0096873b63cc3eb2c21812bc60ba",
 		user_discriminator: "0001",
 		status: "online",
-		pixelDensity: 0.4,
+		scale: 0.4,
 	});
 
 	await fs.writeFile(path.join(__dirname, "result.png"), await r.toPNG());
