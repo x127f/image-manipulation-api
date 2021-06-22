@@ -12,11 +12,11 @@
         order: row;
       }
     </style>
-    <title>SVG</title>
+    <title>Canvacord</title>
   </head>
   <body>
     <div style="max-width: 800px">
-      <canvas id="chart1624284404324" width="16" height="9"></canvas>
+      <canvas id="chart1624283593086" width="16" height="9"></canvas>
     </div>
     <script>
       const format = (num) => {
@@ -34,16 +34,16 @@
 
         return chunked.map((chunk) => chunk.join("")).join(" ");
       };
-      const ctx1624284404324 = document
-        .getElementById("chart1624284404324")
+      const ctx1624283593086 = document
+        .getElementById("chart1624283593086")
         .getContext("2d");
-      const chart1624284404324 = new Chart(ctx1624284404324, {
+      const chart1624283593086 = new Chart(ctx1624283593086, {
         type: "bar",
         data: {
-          labels: ["cairosvg"],
+          labels: ["canvacord"],
           datasets: [
             {
-              data: [4],
+              data: [61],
               backgroundColor: ["rgba(63, 142, 252, 0.8)"],
               borderColor: ["rgba(63, 142, 252, 1)"],
               borderWidth: 1,
@@ -56,7 +56,7 @@
           },
           title: {
             display: true,
-            text: "SVG",
+            text: "Canvacord",
             fontSize: 16,
             padding: 20,
           },

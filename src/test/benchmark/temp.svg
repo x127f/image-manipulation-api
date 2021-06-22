@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
+  <g class="text_color" font-family="Arial" font-size="35" fill="white">
+    <rect id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="1000" height="300"/>
+
+
+    <text x="5%" y="30%">
+      <tspan id="labelLevel">Level</tspan>
+      <tspan id="level" class="primary_color" fill="#5865F2">1</tspan>
+    </text>
+
+    <text x="95%" y="30%" text-anchor="end">
+      <tspan id="labelRank">Rank</tspan>
+      <tspan id="rank" class="primary_color" fill="#5865F2">#1</tspan>
+    </text>
+
+    <text x="5%" y="70%">
+      <tspan id="username">Flam3rboy</tspan>
+      <tspan id="discriminator" class="primary_color" fill="#5865F2">#3490</tspan>
+    </text>
+
+    <text x="95%" y="70%" text-anchor="end">
+      <tspan class="primary_color" fill="#5865F2" id="xp">50</tspan>
+      <tspan font-size="30" id="max">/ 100 XP</tspan>
+    </text>
+
+    <rect id="progressBackground" x="5%" y="80%" width="90%" height="10%" fill="#43464e" rx="15" ry="15"/>
+    <rect id="progress" x="5%" y="80%" width="45%" height="10%" class="primary_color" fill="#5865F2" rx="15" ry="15"/>
+  </g>
+</svg>

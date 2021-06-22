@@ -29,7 +29,16 @@ export class RankCard extends Template<RankCardElements, "primary_color" | "text
 		super(opts);
 
 		if (isBrowser) opts.path = require("../../assets/templates/discord/RankCardCenter.svg").default;
-		else opts.path = require("path").join(__dirname, "..", "..", "templates", "discord", "RankCardCenter.svg");
+		else
+			opts.path = require("path").join(
+				__dirname,
+				"..",
+				"..",
+				"assets",
+				"templates",
+				"discord",
+				"RankCardCenter.svg"
+			);
 	}
 
 	setUsername(username: string) {

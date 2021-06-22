@@ -2,6 +2,7 @@
 import path from "path";
 import { CheerioAPI } from "cheerio";
 import fetchImage from "../util/fetchImage";
+import { performance } from "perf_hooks";
 
 export type TemplateOptions = {
 	path?: string;
@@ -15,8 +16,6 @@ try {
 } catch (error) {
 	isNode = global;
 }
-
-console.log({ isBrowser, isNode });
 
 export class Template<T extends string, G extends string> {
 	static cache: Record<string, string> = {};
