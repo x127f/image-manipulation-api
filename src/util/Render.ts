@@ -227,7 +227,7 @@ export class Render {
 
 	scale(x: number, y?: number) {
 		if (!y) y = x;
-		this.ctx.scale(x, y);
+		this.ctx.scale?.(x, y);
 		return this;
 	}
 
@@ -235,7 +235,7 @@ export class Render {
 		this.canvas.width = this.width * val;
 		this.canvas.height = this.height * val;
 
-		this.ctx.scale(val, val);
+		this.scale?.(val, val);
 		return this;
 	}
 

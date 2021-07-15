@@ -7,9 +7,17 @@
 		{
 			"type": "node",
 			"request": "launch",
+			"name": "test Program",
+			// "skipFiles": ["<node_internals>/**"],
+			"program": "${file}"
+		},
+		{
+			"type": "node",
+			"request": "launch",
 			"name": "Launch Program",
+			// "preLaunchTask": "npm: build",
 			"skipFiles": ["<node_internals>/**"],
-			"program": "${workspaceFolder}/server.js"
+			"program": "${file}"
 		}
 	]
 }

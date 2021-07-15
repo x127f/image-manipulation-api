@@ -1,3 +1,4 @@
+// @ts-nocheck
 import express from "express";
 import templates from "../templates/Template";
 import { performance } from "perf_hooks";
