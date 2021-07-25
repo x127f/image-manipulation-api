@@ -133,7 +133,7 @@ export class Template<T extends string, G extends string> {
 				ctx.drawImage(image, 0, 0, image.width, image.height);
 				const NodeRender = require("../util/NodeRender").NodeRender;
 
-				return new NodeRender(canvas).toPNG();
+				return await new NodeRender(canvas).toPNG();
 			default:
 				return null;
 		}

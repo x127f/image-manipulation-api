@@ -15,9 +15,9 @@ router.get("/", async (req, res) => {
 	if (username) t.setUsername(username);
 	if (discriminator) t.setDiscriminator(discriminator);
 	if (color) t.setColor("primary_color", color);
-	if (user_id && user_avatar) await t.setAvatar(user_id, user_avatar);
+	if ((user_id && user_avatar) || discriminator) await t.setAvatar(user_id, user_avatar);
 
-	return res.setHeader("content-type", "image/png").send(await t.toPNG({ mode: RenderMode.NODE_CANVAS_RENDERER }));
+	res.setHeader("content-type", "image/png").send(await t.toPNG({ mode: RenderMode.NODE_CANVAS_RENDERER }));
 });
 
 export default router;

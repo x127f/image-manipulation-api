@@ -86,7 +86,7 @@ export class RankCard extends Template<RankCardElements, "primary_color" | "text
 	setAvatar(user_id?: string, user_avatar?: string, size: number = 256) {
 		var url;
 		if (!user_avatar || !user_id)
-			url = `https://cdn.discordapp.com/embed/avatars/${Number(this.discriminator) % 5}.png?size=${size}`;
+			url = `https://cdn.discordapp.com/embed/avatars/${Number(this.discriminator) % 6}.png?size=${size}`;
 		else url = `https://cdn.discordapp.com/avatars/${user_id}/${user_avatar}.png?size=${size}`;
 		this.user_avatar = user_avatar;
 		this.user_id = user_id;

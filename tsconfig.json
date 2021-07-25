@@ -1,5 +1,5 @@
 {
-	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.mjs"],
+	"include": ["src/**/*.ts", "src/**/*.js", "src/**/*.mjs", "src/routes_new/discord/rankcard2ts"],
 	"compilerOptions": {
 		/* Visit https://aka.ms/tsconfig.json to read more about this file */
 
