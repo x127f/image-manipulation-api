@@ -1,5 +1,3 @@
-"use strict";
-
 const fs = require("fs");
 const path = require("path");
 const webpack = require("webpack");
@@ -390,8 +388,8 @@ module.exports = function (webpackEnv) {
 										},
 									],
 								],
-
 								plugins: [
+									"transform-remove-strict-mode",
 									[
 										require.resolve("babel-plugin-named-asset-import"),
 										{
