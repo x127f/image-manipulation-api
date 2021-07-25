@@ -102,12 +102,12 @@ export class Render {
 		return this;
 	}
 
-	static percentage(percentage: number, max: number) {
+	static percentageOf(percentage: number, max: number) {
 		return (max / 100) * percentage;
 	}
 
-	percentage(percentage: number, max: number) {
-		return Render.percentage(percentage, max);
+	static percentageFrom(partialValue: number, totalValue: number) {
+		return (100 * partialValue) / totalValue;
 	}
 
 	text(opts: {

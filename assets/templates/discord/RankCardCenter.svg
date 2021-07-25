@@ -74,6 +74,7 @@
     </text>
 
     <text x="5%" y="70%">
+
       <tspan id="username">Flam3rboy</tspan>
       <tspan id="discriminator" class="primary_color" fill="#2d90ff">#0001</tspan>
     </text>
