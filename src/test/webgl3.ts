@@ -2,6 +2,7 @@ import fs from "fs";
 import THREE, {
 	AmbientLight,
 	BoxBufferGeometry,
+	Camera,
 	Clock,
 	FlatShading,
 	FontLoader,
@@ -12,6 +13,7 @@ import THREE, {
 	MeshNormalMaterial,
 	MeshStandardMaterial,
 	OrthographicCamera,
+	PerspectiveCamera,
 	Scene,
 	TextGeometry,
 	TextureLoader,
@@ -38,7 +40,7 @@ const webgl = initCore({ width, height }); // no opts is fine too
 const { window, document, requestAnimationFrame } = webgl;
 const pixels = new Uint8Array(width * height * 4);
 
-var camera: OrthographicCamera;
+var camera: Camera;
 var scene: Scene;
 var renderer: WebGLRenderer;
 var text: Mesh;
@@ -48,7 +50,9 @@ const clock = new Clock();
 init();
 
 function init() {
-	camera = new OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 1000);
+	// camera = new OrthographicCamera(width / -2, width / 2, height / 2, height / -2, 1, 10000);
+	camera = new PerspectiveCamera(70, width / height, 1, 10000);
+
 	camera.position.z = 500;
 
 	renderer = new WebGLRenderer();
@@ -102,14 +106,15 @@ function init() {
 	text = new Mesh(textGeometry, textMaterial);
 	text.position.set(-300, 0, -100);
 
-	// scene.add(text);
+	scene.add(text);
 
 	setInterval(requestAnimationFrame.bind(null, animate), 1000 / fps);
+	// requestAnimationFrame(animate);
 }
 
 function onWindowResize() {
 	// camera.aspect = window.innerWidth / window.innerHeight;
-	camera.updateProjectionMatrix();
+	// camera.updateProjectionMatrix();
 	renderer.setSize(window.innerWidth, window.innerHeight);
 }
 
@@ -184,7 +189,7 @@ function animate() {
 	if (elapsedTime >= 1000) {
 		elapsedTime -= 1000;
 
-		// console.log(frameCount);
+		console.log(frameCount, (delta * 1000).toFixed() + "ms");
 		frameCount = 0;
 	}
 
