@@ -1,8 +1,9 @@
 // @ts-nocheck
 import path from "path";
 import { CheerioAPI } from "cheerio";
-import fetchImage from "../util/fetchImage";
+import { fetchBase64 } from "../util/fetch";
 import { performance } from "perf_hooks";
+import { createCanvas, loadImage } from "canvas";
 
 export type TemplateOptions = {
 	path?: string;
@@ -70,7 +71,7 @@ export class Template<T extends string, G extends string> {
 
 	async loadImage(id: T, url: string) {
 		// @ts-ignore
-		return this.dom(`#${id}`).attr("href", await fetchImage(url));
+		return this.dom(`#${id}`).attr("href", await fetchBase64(url));
 	}
 
 	async setBackground(value: Buffer | string) {
@@ -121,13 +122,32 @@ export class Template<T extends string, G extends string> {
 		return require("sharp")(Buffer.from(this.toXML()));
 	}
 
-	toPNG() {
-		return this.toSharp().png().toBuffer();
+	async toPNG(opts?: { mode?: RenderMode }) {
+		switch (opts?.mode || RenderMode.SHARP_CONVERTER) {
+			case RenderMode.SHARP_CONVERTER:
+				return await this.toSharp().png().toBuffer();
+			case RenderMode.NODE_CANVAS_RENDERER:
+				const image = await loadImage(`data:image/svg+xml;base64,${btoa(this.toXML())}`);
+				const canvas = createCanvas(image.width, image.height);
+				const ctx = canvas.getContext("2d");
+				ctx.drawImage(image, 0, 0, image.width, image.height);
+				const NodeRender = require("../util/NodeRender").NodeRender;
+
+				return new NodeRender(canvas).toPNG();
+			default:
+				return null;
+		}
 	}
 
 	toXML() {
+		if (!this.dom) return "";
 		return this.dom.xml ? this.dom.xml() : this.dom("svg")[0].outerHTML;
 	}
+}
+
+export enum RenderMode {
+	SHARP_CONVERTER,
+	NODE_CANVAS_RENDERER,
 }
 
 const assetPath = path.join(__dirname, "..", "..", "assets", "templates");
