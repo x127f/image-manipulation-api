@@ -16,7 +16,7 @@
   </head>
   <body>
     <div style="max-width: 800px">
-      <canvas id="chart1624282708349" width="16" height="9"></canvas>
+      <canvas id="chart1627136887714" width="16" height="9"></canvas>
     </div>
     <script>
       const format = (num) => {
@@ -34,25 +34,32 @@
 
         return chunked.map((chunk) => chunk.join("")).join(" ");
       };
-      const ctx1624282708349 = document
-        .getElementById("chart1624282708349")
+      const ctx1627136887714 = document
+        .getElementById("chart1627136887714")
         .getContext("2d");
-      const chart1624282708349 = new Chart(ctx1624282708349, {
+      const chart1627136887714 = new Chart(ctx1627136887714, {
         type: "bar",
         data: {
-          labels: ["rank card canvas", "rank card skia", "rank card -> jpeg"],
+          labels: [
+            "svg rank card template",
+            "rank card canvas",
+            "rank card skia",
+            "rank card -> jpeg",
+          ],
           datasets: [
             {
-              data: [12, 28, 13],
+              data: [179, 16, 36, 15],
               backgroundColor: [
                 "rgba(63, 142, 252, 0.8)",
                 "rgba(116, 165, 127, 0.8)",
                 "rgba(158, 206, 154, 0.8)",
+                "rgba(58, 175, 185, 0.8)",
               ],
               borderColor: [
                 "rgba(63, 142, 252, 1)",
                 "rgba(116, 165, 127, 1)",
                 "rgba(158, 206, 154, 1)",
+                "rgba(58, 175, 185, 1)",
               ],
               borderWidth: 1,
             },

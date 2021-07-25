@@ -1,10 +1,6 @@
 import canvacord from "canvacord";
-import Canvas from "canvas";
 import { add, complete, cycle, save, suite } from "benny";
 import path from "path";
-import sharp from "sharp";
-import { RankCard } from "../../templates/Discord";
-import { NodeRender } from "../../util/NodeRender";
 
 suite(
 	"Canvacord",
