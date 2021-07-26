@@ -15,7 +15,10 @@ if (!globalThis.window) {
 }
 
 export async function fetchBase64(url: string, opts: any) {
-	const file = path.join(cache, url.split("://")[1].replaceAll("/", "-"));
+	const file = path.join(
+		cache,
+		url.split("://")[1].replaceAll("/", "-").replaceAll("?", ".").replaceAll("=", "_").replaceAll("&", ",")
+	);
 	if (!globalThis.window) {
 		if (await checkFileExists(file)) {
 			return require("fs").promises.readFile(file, { encoding: "utf8" });
