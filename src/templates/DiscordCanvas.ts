@@ -1,3 +1,5 @@
+import { fetchBase64 } from "../util/fetch";
+
 const { createCanvas, loadImage } = require("canvas");
 const fs = require("fs");
 const sharp = require("sharp");
@@ -77,7 +79,7 @@ const default_values = {
 };
 
 export async function RankCard(query: typeof default_values) {
-	console.time("generate rank card");
+	console.time("canvas rank card");
 	const {
 		background,
 		progress_background,
@@ -187,7 +189,7 @@ export async function RankCard(query: typeof default_values) {
 	buffer = await sharp(buffer, { raw: { width: canvas.width, height: canvas.height, channels: 4 } })
 		.png()
 		.toBuffer();
-	console.timeEnd("generate rank card");
+	console.timeEnd("canvas rank card");
 
 	return buffer;
 }
@@ -233,9 +235,15 @@ function roundRect(ctx, x, y, w, h, r) {
 async function loadAvatar(user_id, user_avatar, user_discriminator, size) {
 	if (!size) size = 128;
 	try {
-		return loadImage(`https://cdn.discordapp.com/avatars/${user_id}/${user_avatar}.png?size=${size}`);
+		return loadImage(
+			await fetchBase64(`https://cdn.discordapp.com/avatars/${user_id}/${user_avatar}.png?size=${size}`)
+		);
 	} catch {
-		return loadImage(`https://cdn.discordapp.com/embed/avatars/${Number(user_discriminator) % 5}.png?size=${size}`);
+		return loadImage(
+			await fetchBase64(
+				`https://cdn.discordapp.com/embed/avatars/${Number(user_discriminator) % 5}.png?size=${size}`
+			)
+		);
 	}
 }
 

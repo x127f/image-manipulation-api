@@ -2,7 +2,7 @@
 import "missing-native-js-functions";
 import path from "path";
 
-function checkFileExists(file: string) {
+export function checkFileExists(file: string) {
 	return require("fs")
 		.promises.access(file)
 		.then(() => true)
@@ -14,7 +14,7 @@ if (!globalThis.window) {
 	require("fs-extra").ensureDirSync(cache);
 }
 
-export async function fetchBase64(url: string, opts: any) {
+export async function fetchBase64(url: string, opts?: any) {
 	const file = path.join(
 		cache,
 		url.split("://")[1].replaceAll("/", "-").replaceAll("?", ".").replaceAll("=", "_").replaceAll("&", ",")
