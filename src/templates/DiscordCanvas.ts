@@ -232,9 +232,8 @@ function roundRect(ctx, x, y, w, h, r) {
 
 async function loadAvatar(user_id, user_avatar, user_discriminator, size) {
 	if (!size) size = 128;
-	const url = `https://cdn.discordapp.com/avatars/${user_id}/${user_avatar}.png?size=${size}`;
 	try {
-		return loadImage();
+		return loadImage(`https://cdn.discordapp.com/avatars/${user_id}/${user_avatar}.png?size=${size}`);
 	} catch {
 		return loadImage(`https://cdn.discordapp.com/embed/avatars/${Number(user_discriminator) % 5}.png?size=${size}`);
 	}
