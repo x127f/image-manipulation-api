@@ -35,6 +35,7 @@
 		"node-fetch": "^2.6.0",
 		"fs-extra": "^10.0.0",
 		"typescript": "^4.3.5",
+		"cheerio": "^1.0.0-rc.10",
 		"sharp": "^0.28.3"
 	},
 	"devDependencies": {
@@ -48,7 +49,6 @@
 		"benny": "^3.6.15",
 		"bmp-js": "^0.1.0",
 		"canvacord": "^5.2.1",
-		"cheerio": "^1.0.0-rc.10",
 		"gifencoder": "^2.0.1",
 		"gl": "^4.9.0",
 		"glfw-raub": "^4.6.0",

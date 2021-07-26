@@ -23,7 +23,6 @@ export async function fetchBase64(url: string, opts: any) {
 	}
 
 	const fetch = globalThis.fetch || require("node-fetch");
-	const FileReader = globalThis.FileReader || require("filereader");
 	const response = await fetch(url, opts);
 	var image;
 
