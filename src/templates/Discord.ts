@@ -30,7 +30,7 @@ export class RankCard extends Template<RankCardElements, "primary" | "text" | "s
 	constructor(public opts: RankCardOptions) {
 		super(opts);
 
-		if (isBrowser) opts.path = require("../../assets/templates/discord/RankCardCenter.svg").default;
+		if (isBrowser) opts.path = require(`../../assets/templates/discord/RankCard${opts.type.title()}.svg`).default;
 		else
 			opts.path = require("path").join(
 				__dirname,
@@ -39,7 +39,7 @@ export class RankCard extends Template<RankCardElements, "primary" | "text" | "s
 				"assets",
 				"templates",
 				"discord",
-				"RankCardCenter.svg"
+				`RankCard${opts.type.title()}.svg`
 			);
 	}
 

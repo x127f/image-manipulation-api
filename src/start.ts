@@ -23,7 +23,7 @@ if (cluster.isMaster) {
 
 async function main() {
 	const server = new Server({
-		port: 8080,
+		port: Number(process.env.PORT) || 8080,
 		host: "0.0.0.0",
 		production: false,
 		errorHandler: (err: Error, req: Request, res: Response, next: NextFunction) => {

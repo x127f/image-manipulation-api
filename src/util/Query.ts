@@ -1,8 +1,12 @@
-import { Gradient, Template } from "../templates/Template";
-import { HTTPError } from "lambert-server";
+import { Gradient, RenderMode, Template } from "../templates/Template";
 import { ParsedQs } from "qs";
+import { Response, Request } from "express";
 
 export function handleQuery(query: ParsedQs, template: Template<string, string>) {
+	const scale = Number(query.scale);
+
+	if (query.scale && !isNaN(scale) && scale > 0 && scale << 10) template.setScale(scale);
+
 	return Promise.all(
 		Object.keys(query).map(async (key) => {
 			const [type, ...elements] = key.split("_");
@@ -30,19 +34,33 @@ export function handleQuery(query: ParsedQs, template: Template<string, string>)
 					}
 					template.setGradient(element, gradient);
 					break;
+				case "radius":
+					template.setAttribute(element, "rx", value);
+					template.setAttribute(element, "ry", value);
+					break;
 				case "attribute":
 					const [id, name] = element.split("=");
 					console.log("set attribute", { element, name, value });
 					template.setAttribute(id, name, value);
 					break;
-				case "scale":
-					template.setScale(Number(value));
-					break;
 				case "image":
 					await template.loadImage(element, value);
 					break;
-				default:
 			}
 		})
 	);
+}
+
+export async function render(req: Request, res: Response, template: Template<string, string>) {
+	switch (req.query.format) {
+		case "svg":
+			return res.type("image/svg+xml").send(await template.toXML());
+		case "jpg":
+		case "jpeg":
+			return res.type("image/jpeg").send(await template.toJPEG());
+		default:
+		case "png":
+			// res.type("image/png").send(await template.toPNG());
+			return res.type("image/png").send(await template.toPNG({ mode: RenderMode.NODE_CANVAS_RENDERER }));
+	}
 }

@@ -26,15 +26,15 @@
       <polygon fill="black" points="0.35,0.25 0.78301275,0.5 0.35,0.75"></polygon>
     </mask>
     <mask id="mask-avatar-nostatus" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
+      <rect class="mask_avatar" fill="white" x="0" width="1" height="1" y="0" rx="0.5" />
     </mask>
     <mask id="mask-avatar" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
-      <circle fill="black" cx="0.85" cy="0.85" r="0.175"></circle>
+      <rect class="mask_avatar" fill="white" x="0" width="1" height="1" y="0" rx="0.5" />
+      <circle class="status_background" fill="black" cx="0.85" cy="0.85" r="0.175"></circle>
     </mask>
     <mask id="mask-avatar-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"></circle>
-      <rect fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667"></rect>
+      <rect class="mask_avatar" fill="white" x="0" width="1" height="1" y="0" rx="0.5" />
+      <rect class="status_background" fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667"></rect>
     </mask>
     <symbol id="status-streaming">
       <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)"></rect>
@@ -56,7 +56,7 @@
     </symbol>
   </defs>
   <g class="text_color" font-family="Arial" font-size="35" fill="white">
-    <rect id="background" fill="rgb(47, 49, 54)" width="1000" height="300" rx="23.988" ry="23.988" />
+    <rect id="background" fill="rgb(47, 49, 54)" width="1000" height="300" />
 
     <svg x="5%" y="40%" style="overflow: auto">
       <image id="avatar" transform="translate(0,-75)" height="200" width="200" mask="url(#mask-avatar)" href="./avatar.png" />

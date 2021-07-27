@@ -1,12 +1,13 @@
+// @ts-nocheck
 import { Router } from "express";
 const router = Router();
 import { RankCard } from "../../templates/Discord";
 import { RenderMode } from "../../templates/Template";
-import { handleQuery } from "../../util/handleQuery";
+import { handleQuery, render } from "../../util/Query";
 
 router.get("/", async (req, res) => {
 	console.time("svg rank card");
-	const t = await new RankCard({ type: "center" }).init();
+	const t = await new RankCard({ type: req.query.type || "center" }).init();
 	await handleQuery(req.query, t);
 
 	const { status, text_xp, text_max, image_avatar, text_discriminator } = req.query as any;
@@ -21,8 +22,7 @@ router.get("/", async (req, res) => {
 		await t.setAvatar(id, hash, 512, discriminator);
 	}
 
-	// res.setHeader("content-type", "image/png").send(await t.toPNG());
-	res.setHeader("content-type", "image/png").send(await t.toPNG({ mode: RenderMode.NODE_CANVAS_RENDERER }));
+	await render(req, res, t);
 	console.log(req.query);
 	console.timeEnd("svg rank card");
 });

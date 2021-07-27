@@ -147,6 +147,8 @@ export class Template<T extends string, G extends string> {
 
 	setScale(value: number) {
 		this.scale = Number(value) || 1;
+		this.setWidth(this.getWidth() * value);
+		this.setHeight(this.getHeight() * value);
 	}
 
 	setWidth(value: number) {
@@ -165,10 +167,15 @@ export class Template<T extends string, G extends string> {
 		return Number(this.dom("svg:root").attr("height"));
 	}
 
+	async toJPEG() {
+		return await this.toSharp().jpeg().toBuffer();
+	}
+
+	async toWebP() {
+		return await this.toSharp().webp().toBuffer();
+	}
+
 	async toPNG(opts?: { mode?: RenderMode }) {
-		this.setWidth(this.getWidth() * this.scale);
-		this.setHeight(this.getHeight() * this.scale);
-		console.log(this.toXML());
 		switch (opts?.mode || RenderMode.SHARP_CONVERTER) {
 			case RenderMode.SHARP_CONVERTER:
 				return await this.toSharp().png().toBuffer();
