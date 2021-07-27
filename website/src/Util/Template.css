@@ -1,0 +1,80 @@
+.color {
+	-webkit-appearance: none;
+	border: none;
+	width: 32px;
+	height: 32px;
+	padding: 0;
+}
+.color::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+.color::-webkit-color-swatch {
+	border: none;
+}
+
+.colors .MuiButtonGroup-root {
+	margin: 0.2rem 0;
+}
+
+.colors .MuiButtonGroup-root .MuiButtonBase-root {
+	font-size: 8px;
+	padding: 1px 2px;
+}
+
+.colors .MuiButtonBase-root:not(.MuiButton-containedPrimary) {
+	background: none;
+}
+
+.colors .wrapper {
+	margin: 0 0.5rem;
+	display: flex;
+	flex-direction: column;
+}
+
+.colors {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.color-picker {
+	display: flex;
+}
+
+.color-picker .MuiIconButton-root {
+	padding: 5px;
+}
+
+.color-picker input {
+	margin: 0 1px;
+}
+
+.colors .image-url input {
+	font-size: 11px;
+}
+
+.colors .image-url label:not(.MuiInputLabel-shrink) {
+	transform: translate(14px, 10px);
+}
+
+.element .name {
+	font-size: 1rem;
+	font-weight: 700;
+}
+
+.element {
+	margin: 0 0.5rem;
+}
+
+#elements {
+	display: flex;
+	flex-wrap: wrap;
+}
+
+.template .preview {
+	max-width: 750px;
+	width: 100%;
+}
+
+.template {
+	margin: 1rem;
+}
