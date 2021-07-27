@@ -68,12 +68,12 @@
     </svg>
 
     <text x="5%" y="20%" dominant-baseline="middle">
-      <tspan id="labelLevel">Level</tspan>
+      <tspan id="label_level">Level</tspan>
       <tspan id="level" class="primary_color" fill="#2d90ff">1</tspan>
     </text>
 
     <text x="70%" y="20%" text-anchor="end" dominant-baseline="middle">
-      <tspan id="labelRank">Rank</tspan>
+      <tspan id="label_rank">Rank</tspan>
       <tspan id="rank" class="primary_color" fill="#2d90ff">#1</tspan>
     </text>
 
@@ -89,7 +89,7 @@
       </tspan>
     </text>
 
-    <rect id="progressBackground" x="5%" y="45%" width="65%" height="10%" fill="#43464e" rx="15" ry="15"></rect>
+    <rect id="progress_background" x="5%" y="45%" width="65%" height="10%" fill="#43464e" rx="15" ry="15"></rect>
     <rect id="progress" x="5%" y="45%" width="10%" height="10%" class="primary_color" fill="#2d90ff" rx="15" ry="15"></rect>
   </g>
 </svg>
