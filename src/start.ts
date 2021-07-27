@@ -4,6 +4,7 @@ import express, { NextFunction, Request, Response } from "express";
 import path from "path";
 import { cpus } from "os";
 import process from "process";
+require("dotenv").config();
 const numCPUs = cpus().length;
 
 if (cluster.isMaster) {
