@@ -20,8 +20,13 @@ try {
 
 export class Template<T extends string, G extends string> {
 	static cache: Record<string, string> = {};
+	static COUNTER = 0;
 	// @ts-ignore
 	dom: CheerioAPI;
+	background?: string;
+	scale: number = 1;
+	elements: string[] = [];
+	color_elements: string[] = [];
 
 	constructor(public opts: TemplateOptions) {}
 
@@ -39,7 +44,7 @@ export class Template<T extends string, G extends string> {
 
 	loadFile(path: string) {
 		const content = Template.cache[path] || require("fs").readFileSync(path, { encoding: "utf8" });
-		Template.cache[path] = content;
+		// Template.cache[path] = content;
 		return content;
 	}
 
@@ -63,66 +68,107 @@ export class Template<T extends string, G extends string> {
 		return this;
 	}
 
-	setImage(id: T, image: Buffer) {
-		const $ = this.dom;
-
-		$(`#${id}`).attr("href", `data:image/png;base64,${image.toString("base64")}`);
+	getElement(idClass: string) {
+		const element = this.dom(`#${idClass}, .${idClass}`);
+		if (!element) throw new Error("Element not found");
+		return element;
 	}
 
 	async loadImage(id: T, url: string) {
+		if (!url.startsWith("http")) return;
+
 		// @ts-ignore
-		return this.dom(`#${id}`).attr("href", await fetchBase64(url));
+		const element = this.getElement(id);
+
+		if (globalThis.window) {
+			const image = document.createElement("image");
+			element[0].attributes.forEach((x) => {
+				image.setAttribute(x.name, x.value);
+			});
+			image.setAttribute("href", value);
+
+			background[0].outerHTML = image.outerHTML;
+		} else {
+			element[0].tagName = "image";
+			element.attr("href", await fetchBase64(url));
+		}
 	}
 
-	async setBackground(value: Buffer | string) {
+	async setBackground(value: string) {
 		const $ = this.dom;
-		// @ts-ignore
-		if (typeof value === "string") return this.setColor("background", value);
+		this.background = value;
+		const isLink = value.startsWith("http") || value.startsWith("data:");
+		window.t = $;
 
-		$("#background").each((i, x) => {
-			x.tagName = "image";
-			x.attribs.href = `data:image/png;base64,${value.toString("base64")}`;
-		});
+		if (globalThis.window) {
+			const background = document.querySelector("#background");
+			window.test = background;
+			const image = document.createElement(isLink ? "image" : "rect");
+			background.attributes.forEach((x) => {
+				image.setAttribute(x.name, x.value);
+			});
+			image.setAttribute("fill", value);
+			image.setAttribute("href", value);
+			console.log(background, image);
+
+			background.outerHTML = image.outerHTML;
+		} else {
+			const background = $("#background");
+			if (!background) return;
+			if (isLink) {
+				background.tagName = "image";
+				background.attribs.href = await fetchBase64(value);
+			} else {
+				background.attribs.fill = value;
+			}
+		}
 	}
 
 	setColor(id: T | G, color: string) {
-		const $ = this.dom;
-
-		const elements = $(`#${id}, .${id}`);
-		if (!elements) throw new Error("Color not found");
-
-		elements.attr("fill", color);
+		this.getElement(id).attr("fill", color);
 	}
 
 	setGradient(id: T | G, gradient: Gradient) {
-		const $ = this.dom;
-
-		const elements = $(`#${id}, .${id}`);
-		if (!elements) throw new Error("Color not found");
-
-		const gradientElement = $(`#${gradient.id}`);
-		if (!gradientElement.length) $("defs").after(gradient.toXML());
-
-		elements.attr("fill", `url(#${gradient.id})`);
+		this.dom("defs").append(gradient.toXML());
+		this.getElement(id).attr("fill", `url(#${gradient.id})`);
 	}
 
 	setText(id: T, text: string) {
-		const $ = this.dom;
-
-		$(`#${id}`).text(text);
+		this.getElement(id).text(text);
 	}
 
-	setAttribute(id: T, name: string, value: string) {
-		const $ = this.dom;
-
-		$(`#${id}`).attr(name, value);
+	setAttribute(id: T | G, name: string, value: string) {
+		this.getElement(id).attr(name, value);
 	}
 
 	toSharp() {
 		return require("sharp")(Buffer.from(this.toXML()));
 	}
 
+	setScale(value: number) {
+		this.scale = Number(value) || 1;
+	}
+
+	setWidth(value: number) {
+		this.dom("svg:root").attr("width", value);
+	}
+
+	setHeight(value: number) {
+		this.dom("svg:root").attr("height", value);
+	}
+
+	getWidth() {
+		return Number(this.dom("svg:root").attr("width"));
+	}
+
+	getHeight() {
+		return Number(this.dom("svg:root").attr("height"));
+	}
+
 	async toPNG(opts?: { mode?: RenderMode }) {
+		this.setWidth(this.getWidth() * this.scale);
+		this.setHeight(this.getHeight() * this.scale);
+		console.log(this.toXML());
 		switch (opts?.mode || RenderMode.SHARP_CONVERTER) {
 			case RenderMode.SHARP_CONVERTER:
 				return await this.toSharp().png().toBuffer();
@@ -141,7 +187,7 @@ export class Template<T extends string, G extends string> {
 
 	toXML() {
 		if (!this.dom) return "";
-		return this.dom.xml ? this.dom.xml() : this.dom("svg")[0].outerHTML;
+		return this.dom.xml ? this.dom.xml() : this.dom(":root")[0].outerHTML;
 	}
 }
 
@@ -176,7 +222,7 @@ export class Gradient {
 		}
 	) {
 		// @ts-ignore
-		this.opts = { transform: "", spread: "", x: 0, y: 0, toX: "", toY: "", ...opts };
+		this.opts = { transform: "", spread: "pad", x: 0, y: 0, toX: "", toY: "", ...opts };
 		this.id = `gradient-${Gradient.COUNTER++}`;
 	}
 
