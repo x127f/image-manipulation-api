@@ -11,12 +11,13 @@ import {
 	Typography,
 } from "@material-ui/core";
 import React, { useCallback, useState } from "react";
-import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import "missing-native-js-functions";
 import "./Template.scss";
 import { useEffect } from "react";
 import PaletteIcon from "@material-ui/icons/Palette";
 import SyntaxHighlighter from "react-syntax-highlighter";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
+
 import ExpandLess from "@material-ui/icons/ExpandLess";
 import ExpandMore from "@material-ui/icons/ExpandMore";
 
@@ -204,6 +205,7 @@ export function Template(opts: {
 					<SyntaxHighlighter language="javascript" style={docco}>
 						{`const opts = new URLSearchParams();
 ${Object.entries({ ...state, format: "png" })
+	.filter(([_, val]) => !!val)
 	.map(([key, value]) => `opts.set("${key}", "${value}")`)
 	.join("\n")}
 ${opts.codeExample}
