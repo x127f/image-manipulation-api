@@ -82,11 +82,12 @@ export default function RankCard() {
 							<MenuItem value={"right"}>Right</MenuItem>
 						</Select>
 					</td>
+					<td className="field"></td>
 				</tr>
 				<tr className="element">
 					<td className="name">Opacity</td>
 					<td className="field color"></td>
-					<td className="field text">
+					<td className="field">
 						<TextField
 							InputProps={{ inputProps: { min: 0, max: 100 } }}
 							defaultValue="0"
@@ -95,6 +96,7 @@ export default function RankCard() {
 							onChange={(e) => setState({ opacity: e.target.value })}
 						></TextField>
 					</td>
+					<td className="field"></td>
 				</tr>
 			</Template>
 		</div>

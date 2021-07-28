@@ -92,7 +92,7 @@ export function Template(opts: {
 						</div>
 					)}
 				</td>
-				<td className="field text image attributes select">
+				<td className="field">
 					{fields.text && (
 						<TextField
 							onChange={(e) => setState({ ["text_" + name]: e.target.value })}
@@ -122,7 +122,7 @@ export function Template(opts: {
 					)}
 					{fields.attributes && renderElements(fields.attributes, "attribute_" + name + "=")}
 				</td>
-				<td className="field radius">
+				<td className="field">
 					{fields.radius && (
 						<>
 							<Typography gutterBottom>Radius</Typography>
@@ -172,11 +172,19 @@ export function Template(opts: {
 
 	return (
 		<div className="template">
+			<div className="preview">
+				<a rel="noreferrer" target="_blank" href={seralizedPreview}>
+					<img alt="rendered preview" src={preview} />
+
+					{/* {decodeURIComponent(seralizedPreview)} */}
+				</a>
+			</div>
 			<table id="elements">
 				<tr>
-					<th>Element</th>
-					<th>Color</th>
-					<th>Text</th>
+					<th className="element">Element</th>
+					<th className="color"> Color</th>
+					<th className="text">Text</th>
+					<th className="radius"></th>
 				</tr>
 				{renderElements(elements)}
 				{children}
@@ -192,17 +200,6 @@ export function Template(opts: {
 					</td>
 				</tr>
 			</table>
-			<br />
-			<img className="preview" alt="rendered preview" src={preview} />
-
-			<a
-				style={{ margin: "1rem 0", display: "block", wordBreak: "break-all" }}
-				rel="noreferrer"
-				target="_blank"
-				href={seralizedPreview}
-			>
-				{decodeURIComponent(seralizedPreview)}
-			</a>
 		</div>
 	);
 }
