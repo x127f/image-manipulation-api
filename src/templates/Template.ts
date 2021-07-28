@@ -35,16 +35,16 @@ export class Template<T extends string, G extends string> {
 			const content = await this.loadUrl(this.opts.path);
 			this.useJquery(content);
 		} else if (isNode) {
-			const content = this.loadFile(this.opts.path);
+			const content = await this.loadFile(this.opts.path);
 			this.useCheerio(content);
 		}
 		this.dom("svg").attr("xmlns:xlink", "http://www.w3.org/1999/xlink");
 		return this;
 	}
 
-	loadFile(path: string) {
-		const content = Template.cache[path] || require("fs").readFileSync(path, { encoding: "utf8" });
-		// Template.cache[path] = content;
+	async loadFile(path: string) {
+		const content = Template.cache[path] || (await require("fs").promises.readFile(path, { encoding: "utf8" }));
+		// Template.cache[path] = content; // TODO: uncomment this on production
 		return content;
 	}
 
@@ -69,7 +69,7 @@ export class Template<T extends string, G extends string> {
 	}
 
 	getElement(idClass: string) {
-		const element = this.dom(`#${idClass}, .${idClass}`);
+		const element = this.dom(`#${idClass}, .${idClass}, ${idClass}`);
 		if (!element) throw new Error("Element not found");
 		return element;
 	}

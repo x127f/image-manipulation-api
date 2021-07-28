@@ -55,26 +55,33 @@
       <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)"></rect>
     </symbol>
 
-    <filter id="dropshadow" height="150%" width="150%">
-      <feGaussianBlur in="SourceAlpha" stdDeviation="10" /> <!-- stdDeviation is how much to blur -->
-      <feOffset dx="0" dy="0" result="offsetblur" /> <!-- how much to offset -->
-      <feComponentTransfer>
-        <feFuncA type="linear" slope="0.5" /> <!-- slope is the opacity of the shadow -->
-      </feComponentTransfer>
+    <filter id="dropshadow" height="300" width="1000">
+      <feGaussianBlur transform="scale(2)" in="SourceAlpha" stdDeviation="10" />
+      <feOffset dx="5" dy="5" result="offsetblur" />
+      <feFlood flood-color="#000000" flood-opacity="0.5" />
+      <feComposite in2="offsetblur" operator="in" />
       <feMerge>
-        <feMergeNode /> <!-- this contains the offset blurred image -->
-        <feMergeNode in="SourceGraphic" /> <!-- this contains the element that the filter is applied to -->
+        <feMergeNode />
+        <feMergeNode in="SourceGraphic" />
       </feMerge>
+    </filter>
+    <filter id="shadow" x="0" y="0" width="200%" height="200%">
+      <feDropShadow dx="0" dy="0" stdDeviation="35" flood-color="#000000" flood-opacity="1" />
     </filter>
 
     <pattern id="background_image" patternUnits="userSpaceOnUse" width="100%" height="100%">
       <image href="" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
     </pattern>
 
+    <clipPath id="clip">
+      <rect class="background_radius" x="0" y="0" width="100%" height="100%" />
+    </clipPath>
+
   </defs>
 
   <g class="text" font-family="Arial" font-size="35" fill="white">
-    <rect id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+    <rect clip-path="url(#clip)" class="background_radius" id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+    <rect id="background_opacity" clip-path="url(#clip)" class="background_radius" opacity="0" fill="#000000" y="0" x="0" width="100%" height="100%" />
 
     <svg x="50%" y="40%" style="overflow: auto">
       <image id="avatar" transform="translate(-75,-75)" height="150" width="150" mask="url(#mask-avatar)" href="./avatar.png" />

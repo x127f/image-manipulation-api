@@ -29,6 +29,8 @@ export class RankCard extends Template<RankCardElements, "primary" | "text" | "s
 
 	constructor(public opts: RankCardOptions) {
 		super(opts);
+		if (!["center", "right", "left"].includes(opts.type.toLowerCase()))
+			throw new HTTPError("Invalid type: " + opts.type);
 
 		if (isBrowser) opts.path = require(`../../assets/templates/discord/RankCard${opts.type.title()}.svg`).default;
 		else
@@ -65,20 +67,20 @@ export class RankCard extends Template<RankCardElements, "primary" | "text" | "s
 	}
 
 	setMax(value: number) {
+		this.max = Math.max(value, 0);
 		this.setText("max", `/ ${value} XP`);
-		this.max = value;
 		this.setXP(this.xp);
 	}
 
 	setXP(value: number) {
-		// if (this.max < value) value = this.max;
-
+		this.xp = Math.max(value, 0);
 		this.setText("xp", `${value}`);
-		this.xp = value;
+		if (this.max < this.xp) this.xp = this.max;
+
 		// @ts-ignore
 		const maxPercent = Number(this.dom("#progress_background").attr("width").slice(0, -1));
 		// @ts-ignore
-		const percentage = Render.percentageOf(Render.percentageFrom(value, this.max), maxPercent);
+		const percentage = Render.percentageOf(Render.percentageFrom(this.xp, this.max), maxPercent);
 		this.setAttribute("progress", "width", `${percentage}%`);
 	}
 }

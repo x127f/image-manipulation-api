@@ -1,8 +1,8 @@
 // @ts-nocheck
 import { debounce, IconButton, MenuItem, Select, Slider, TextField, Tooltip, Typography } from "@material-ui/core";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import "missing-native-js-functions";
-import "./Template.css";
+import "./Template.scss";
 import AddIcon from "@material-ui/icons/Add";
 import { useEffect } from "react";
 import PaletteIcon from "@material-ui/icons/Palette";
@@ -16,26 +16,39 @@ interface Element {
 	attributes?: Record<string, Element>;
 }
 
-export function Template({
-	elements,
-	path,
-	state,
-	setState,
-	children,
-}: {
+export function useBetterState(val?: any, delay?: number) {
+	var [state, setState] = useState(val);
+	const setTimedState = useCallback(
+		debounce((s: any) => {
+			state = { ...state, ...s };
+			setState(state);
+
+			return state;
+		}, delay || 50),
+		[setState, state]
+	);
+	return [state, setTimedState];
+}
+
+export function Template(opts: {
 	children?: ReactNode;
 	path: string;
 	elements: Record<string, Element>;
 	state: Record<string, string>;
 	setState: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 }) {
+	var { elements, path, state, children } = opts;
+	const setState = (val) => {
+		opts.setState(val);
+		updateState();
+	};
 	const [preview, setPreview] = useState<string>();
 	const [colors, setWholeColors] = useState<Record<string, { type: string; value: string[] }>>({});
 
 	const setColors = (s: any) => setWholeColors({ ...state, ...s });
 
 	useEffect(() => {
-		setOwnState({ format: "svg" });
+		setState({ format: "svg" });
 	}, []);
 
 	useEffect(updateState, [state, setPreview]);
@@ -52,82 +65,73 @@ export function Template({
 		setPreview(`${origin}/${path}?${p.toString()}`);
 	}
 
-	const setOwnState = (s: any) => {
-		state = { ...state, ...s };
-		setState(state);
-		updateState();
-
-		return state;
-	};
-
 	function renderFields(name: string, fields: Element) {
-		return Object.entries(fields)
-			.sort(([a], [b]) => b.localeCompare(a))
-			.map(([field, value]) => {
-				if (!colors[name] && field === "color") colors[name] = { type: "color", value: [] };
+		if (!colors[name]) colors[name] = { type: "color", value: [] };
 
-				const color = colors[name];
-				return (
-					<div className="field" key={field}>
-						{field === "color" && (
-							<div className="color-picker">
-								{color?.value.map((value, i) => (
-									<input
-										onChange={setColor.bind(null, name, i)}
-										onContextMenuCapture={setColor.bind(null, name, i, false)}
-										onDoubleClickCapture={setColor.bind(null, name, i, false)}
-										className="color"
-										type="color"
-									/>
-								))}
+		const color = colors[name];
 
-								<Tooltip title="Add Color">
-									<IconButton onClick={() => setColor(name, color.value.length)}>
-										<PaletteIcon component="svg" fontSize="small" />
-									</IconButton>
-								</Tooltip>
-							</div>
-						)}
-						{field === "text" && (
-							<TextField
-								onChange={(e) => setOwnState({ ["text_" + name]: e.target.value })}
-								value={state["text_" + name] || ""}
-								size="small"
-							></TextField>
-						)}
-						{field === "image" && (
-							<TextField
-								onChange={(e) => {
-									setOwnState({
-										["image_" + name]: e.target.value,
-									});
-								}}
-								className="image-url"
-								size="small"
-								InputLabelProps={{ shrink: true }}
-								label={"url"}
-							></TextField>
-						)}
-						{field === "select" && (
-							<Select defaultValue="" onChange={(e) => setOwnState({ [name]: e.target.value })}>
-								{value.map((x: any) => (
-									<MenuItem value={x}>{x.title()}</MenuItem>
-								))}
-							</Select>
-						)}
-						{field === "attributes" && renderElements(value, "attribute_" + name + "=")}
-						{field === "radius" && (
-							<>
-								<Typography gutterBottom>Radius</Typography>
-								<Slider
-									defaultValue={0}
-									onChange={(_, val) => setOwnState({ ["radius_" + name]: val })}
+		return (
+			<>
+				<td className="field color">
+					{fields.color && (
+						<div className="color-picker">
+							<Tooltip title="Add Color">
+								<IconButton onClick={() => setColor(name, color.value.length)}>
+									<PaletteIcon component="svg" fontSize="small" />
+								</IconButton>
+							</Tooltip>
+							{color?.value.map((value, i) => (
+								<input
+									onChange={setColor.bind(null, name, i)}
+									onContextMenuCapture={(e) => e.preventDefault() || setColor(name, i, false)}
+									onDoubleClickCapture={setColor.bind(null, name, i, false)}
+									className="color"
+									type="color"
 								/>
-							</>
-						)}
-					</div>
-				);
-			});
+							))}
+						</div>
+					)}
+				</td>
+				<td className="field text image attributes select">
+					{fields.text && (
+						<TextField
+							onChange={(e) => setState({ ["text_" + name]: e.target.value })}
+							value={state["text_" + name] || ""}
+							size="small"
+						></TextField>
+					)}
+					{fields.image && (
+						<TextField
+							onChange={(e) => {
+								setState({
+									["image_" + name]: e.target.value,
+								});
+							}}
+							className="image-url"
+							size="small"
+							InputLabelProps={{ shrink: true }}
+							label={"url"}
+						></TextField>
+					)}
+					{fields.select && (
+						<Select defaultValue="" onChange={(e) => setState({ [name]: e.target.value })}>
+							{fields.select.map((x: any) => (
+								<MenuItem value={x}>{x.title()}</MenuItem>
+							))}
+						</Select>
+					)}
+					{fields.attributes && renderElements(fields.attributes, "attribute_" + name + "=")}
+				</td>
+				<td className="field radius">
+					{fields.radius && (
+						<>
+							<Typography gutterBottom>Radius</Typography>
+							<Slider defaultValue={0} onChange={(_, val) => setState({ ["radius_" + name]: val })} />
+						</>
+					)}
+				</td>
+			</>
+		);
 	}
 
 	const setColor = useCallback(
@@ -140,46 +144,54 @@ export function Template({
 			else color.value[index] = value;
 
 			if (color.value.length === 0) {
-				setOwnState({ ["color_" + name]: undefined, ["gradient_" + name]: undefined });
+				setState({ ["color_" + name]: undefined, ["gradient_" + name]: undefined });
 			} else if (color.value.length === 1) {
-				setOwnState({ ["color_" + name]: value, ["gradient_" + name]: undefined });
+				setState({ ["color_" + name]: value, ["gradient_" + name]: undefined });
 			} else {
-				setOwnState({ ["color_" + name]: undefined, ["gradient_" + name]: color.value.join(";") });
+				setState({ ["color_" + name]: undefined, ["gradient_" + name]: color.value.join(";") });
 			}
 			setColors({ ...colors });
+			return false;
 		}, 0),
-		[setOwnState]
+		[setState]
 	);
 
 	function renderElements(el: Record<string, Element>, prefix: string = "") {
 		return Object.entries(el).map(([name, fields]) => (
-			<div className="element" key={name}>
-				<div className="name">{name}</div>
+			<tr className="element" key={name}>
+				<td className="name">{name}</td>
 
-				<div className="fields">{renderFields(prefix + name, fields)}</div>
-			</div>
+				{/* <div className="fields"> */}
+				{renderFields(prefix + name, fields)}
+				{/* </div> */}
+			</tr>
 		));
 	}
 
-	const seralizedPreview = preview?.replace("format=svg&", "");
+	const seralizedPreview = preview?.replace("&format=svg", "");
 
 	return (
 		<div className="template">
-			<h3>Elements:</h3>
-
-			<div id="elements">
+			<table id="elements">
+				<tr>
+					<th>Element</th>
+					<th>Color</th>
+					<th>Text</th>
+				</tr>
 				{renderElements(elements)}
 				{children}
-				<div className="element">
-					<TextField
-						defaultValue={1}
-						type="number"
-						onChange={(e) => setOwnState({ scale: Number(e.target.value) })}
-						InputLabelProps={{ shrink: true }}
-						label={"Scale"}
-					/>
-				</div>
-			</div>
+				<tr className="element">
+					<td class="name">Scale</td>
+					<td className="field color"></td>
+					<td className="field">
+						<TextField
+							defaultValue={1}
+							type="number"
+							onChange={(e) => setState({ scale: Number(e.target.value) })}
+						/>
+					</td>
+				</tr>
+			</table>
 			<br />
 			<img className="preview" alt="rendered preview" src={preview} />
 

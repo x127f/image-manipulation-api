@@ -1,0 +1,66 @@
+.template {
+	margin: 1rem;
+
+	.preview {
+		max-width: 750px;
+		width: 100%;
+	}
+
+	#elements {
+		th {
+			text-align: left;
+			font-size: 1.2rem;
+		}
+
+		.element {
+			margin: 0.5rem 0.5rem;
+
+			.name {
+				font-size: 1rem;
+				font-weight: 700;
+			}
+
+			.field {
+				.MuiInputLabel-root {
+					font-size: 16px;
+					font-weight: 700;
+					color: black;
+					input {
+						font-size: 11px;
+					}
+					label:not(.MuiInputLabel-shrink) {
+						transform: translate(14px, 10px);
+					}
+				}
+				.MuiInputLabel-shrink {
+					transform: none;
+				}
+
+				&.color {
+					.color-picker {
+						display: flex;
+						flex-direction: column;
+
+						.MuiIconButton-root {
+							padding: 5px;
+						}
+						input {
+							-webkit-appearance: none;
+							border: none;
+							width: 32px;
+							height: 32px;
+							padding: 0;
+
+							&::-webkit-color-swatch-wrapper {
+								padding: 0;
+							}
+							&::-webkit-color-swatch {
+								border: none;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+}

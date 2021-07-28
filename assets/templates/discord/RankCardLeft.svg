@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
+<svg width="1000" height="250" viewBox="0 0 1000 250" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
   <defs>
     <mask id="mask-status-online-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
       <rect fill="white" x="0" y="0" width="1" height="1" rx="0.1875" ry="0.125"></rect>
@@ -37,30 +37,35 @@
       <rect class="status_background" fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667"></rect>
     </mask>
     <symbol id="status-streaming">
-      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)"></rect>
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)"></rect>
     </symbol>
     <symbol id="status-online">
-      <rect width="40" height="40" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online)"></rect>
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online)"></rect>
     </symbol>
     <symbol id="status-offline">
-      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(214, 9.9%, 50.4%)" mask="url(#mask-status-offline)"></rect>
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(214, 9.9%, 50.4%)" mask="url(#mask-status-offline)"></rect>
     </symbol>
     <symbol id="status-dnd">
-      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(359,  82.6%, 59.4%)" mask="url(#mask-status-dnd)"></rect>
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(359,  82.6%, 59.4%)" mask="url(#mask-status-dnd)"></rect>
     </symbol>
     <symbol id="status-online-mobile">
-      <rect width="40" height="45" x="35" y="20" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online-mobile)"></rect>
+      <rect width="30" height="45" x="35" y="20" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online-mobile)"></rect>
     </symbol>
     <symbol id="status-idle">
-      <rect width="40" height="40" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)"></rect>
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)"></rect>
     </symbol>
+
+    <clipPath id="clip">
+      <rect class="background_radius" x="0" y="0" width="100%" height="100%" />
+    </clipPath>
+
   </defs>
   <g class="text_color" font-family="Arial" font-size="35" fill="white">
-    <rect id="background" fill="rgb(47, 49, 54)" width="1000" height="300" />
+    <rect clip-path="url(#clip)" class="background_radius" id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
 
-    <svg x="5%" y="40%" style="overflow: auto">
-      <image id="avatar" transform="translate(0,-75)" height="200" width="200" mask="url(#mask-avatar)" href="./avatar.png" />
-      <use x="150" y="75" id="status" href="#status-online" />
+    <svg x="5%" y="50%" style="overflow: auto">
+      <image id="avatar" transform="translate(0,-75)" height="150" width="150" mask="url(#mask-avatar)" href="./avatar.png" />
+      <use x="75" y="0" id="status" href="#status-online" />
     </svg>
 
     <text x="30%" y="20%" dominant-baseline="middle">

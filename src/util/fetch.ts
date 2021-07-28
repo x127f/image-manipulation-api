@@ -24,20 +24,21 @@ export async function fetchBase64(url: string, opts?: any) {
 		cache,
 		url.split("://")[1].replaceAll("/", "-").replaceAll("?", ".").replaceAll("=", "_").replaceAll("&", ",")
 	);
-	if (await checkFileExists(file)) {
-		return require("fs").promises.readFile(file, { encoding: "utf8" });
+
+	try {
+		return await require("fs").promises.readFile(file, { encoding: "utf8" });
+	} catch (e) {
+		const fetch = globalThis.fetch || require("node-fetch");
+		const response = await fetch(url, opts);
+		var image;
+
+		// nodejs
+		const body = await response.buffer();
+		image = body.toString("base64");
+
+		const result = `data:${response.headers.get("content-type")?.toLowerCase()};base64,${image}`;
+		require("fs").promises.writeFile(file, result, { encoding: "utf8" }).caught(); // do not await file to be written for lower latency
+		if (response.status !== 200) throw new Error("not found");
+		return result;
 	}
-
-	const fetch = globalThis.fetch || require("node-fetch");
-	const response = await fetch(url, opts);
-	var image;
-
-	// nodejs
-	const body = await response.buffer();
-	image = body.toString("base64");
-
-	const result = `data:${response.headers.get("content-type")?.toLowerCase()};base64,${image}`;
-	require("fs").promises.writeFile(file, result, { encoding: "utf8" }).caught(); // do not await file to be written for lower latency
-	if (response.status !== 200) throw new Error("not found");
-	return result;
 }

@@ -1,7 +1,7 @@
 // @ts-nocheck
-import { FormControl, InputLabel, MenuItem, Select } from "@material-ui/core";
+import { FormControl, InputLabel, MenuItem, Select, TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import { Template } from "../Util/Template";
+import { Template, useBetterState } from "../Util/Template";
 
 export const elements = {
 	primary: {
@@ -65,21 +65,37 @@ export const elements = {
 };
 
 export default function RankCard() {
-	const [state, setState] = useState<Record<string, string>>({
+	const [state, setState] = useBetterState({
 		image_avatar: "discord",
 	});
 
 	return (
 		<div className="discord-rank-card">
 			<Template path="discord/rankcard" elements={elements} state={state} setState={setState}>
-				<FormControl className="element">
-					<InputLabel shrink>Type</InputLabel>
-					<Select defaultValue="center" onChange={(e) => setState({ ...state, type: e.target.value })}>
-						<MenuItem value={"left"}>Left</MenuItem>
-						<MenuItem value={"center"}>Center</MenuItem>
-						<MenuItem value={"right"}>Right</MenuItem>
-					</Select>
-				</FormControl>
+				<tr className="element">
+					<td className="name">Type</td>
+					<td className="field color"></td>
+					<td className="field">
+						<Select defaultValue="center" onChange={(e) => setState({ type: e.target.value })}>
+							<MenuItem value={"left"}>Left</MenuItem>
+							<MenuItem value={"center"}>Center</MenuItem>
+							<MenuItem value={"right"}>Right</MenuItem>
+						</Select>
+					</td>
+				</tr>
+				<tr className="element">
+					<td className="name">Opacity</td>
+					<td className="field color"></td>
+					<td className="field text">
+						<TextField
+							InputProps={{ inputProps: { min: 0, max: 100 } }}
+							defaultValue="0"
+							className="element"
+							type="number"
+							onChange={(e) => setState({ opacity: e.target.value })}
+						></TextField>
+					</td>
+				</tr>
 			</Template>
 		</div>
 	);

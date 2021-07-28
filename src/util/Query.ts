@@ -4,8 +4,11 @@ import { Response, Request } from "express";
 
 export function handleQuery(query: ParsedQs, template: Template<string, string>) {
 	const scale = Number(query.scale);
+	const opacity = Number(query.opacity);
+	// background_opacity
 
-	if (query.scale && !isNaN(scale) && scale > 0 && scale << 10) template.setScale(scale);
+	if (scale > 0 && scale << 10) template.setScale(scale);
+	if (opacity) template.setAttribute("background_opacity", "opacity", `${opacity / 100}`);
 
 	return Promise.all(
 		Object.keys(query).map(async (key) => {
@@ -37,6 +40,8 @@ export function handleQuery(query: ParsedQs, template: Template<string, string>)
 				case "radius":
 					template.setAttribute(element, "rx", value);
 					template.setAttribute(element, "ry", value);
+					template.setAttribute(element + "_radius", "rx", value);
+					template.setAttribute(element + "_radius", "ry", value);
 					break;
 				case "attribute":
 					const [id, name] = element.split("=");
