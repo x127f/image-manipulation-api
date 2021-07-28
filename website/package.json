@@ -61,6 +61,7 @@
     "react-dom": "^17.0.2",
     "react-linear-gradient-picker": "^1.2.3",
     "react-refresh": "^0.8.3",
+    "react-syntax-highlighter": "^15.4.4",
     "resolve": "1.18.1",
     "resolve-url-loader": "^3.1.2",
     "sass": "^1.36.0",

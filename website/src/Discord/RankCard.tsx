@@ -36,6 +36,10 @@ export const elements = {
 		text: true,
 		color: true,
 	},
+	rank: {
+		text: true,
+		color: true,
+	},
 	avatar: {
 		image: true,
 	},
@@ -64,6 +68,22 @@ export const elements = {
 	},
 };
 
+const codeExample = `
+// Usage with discord.js
+// Status
+// You need to enable the presence intent https://discordjs.guide/popular-topics/intents.html
+opts.set("status", message.author.presence.status)
+
+// Avatar
+opts.set("image_avatar", message.author.displayAvatarURL({format: "png"}))
+
+// Username
+opts.set("text_username", message.author.username)
+
+// Discriminator
+opts.set("text_discriminator", message.author.discriminator)
+`;
+
 export default function RankCard() {
 	const [state, setState] = useBetterState({
 		image_avatar: "discord",
@@ -71,7 +91,13 @@ export default function RankCard() {
 
 	return (
 		<div className="discord-rank-card">
-			<Template path="discord/rankcard" elements={elements} state={state} setState={setState}>
+			<Template
+				path="discord/rankcard"
+				elements={elements}
+				state={state}
+				setState={setState}
+				codeExample={codeExample}
+			>
 				<tr className="element">
 					<td className="name">Type</td>
 					<td className="field color"></td>

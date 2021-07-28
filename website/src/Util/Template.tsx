@@ -1,11 +1,24 @@
 // @ts-nocheck
-import { debounce, IconButton, MenuItem, Select, Slider, TextField, Tooltip, Typography } from "@material-ui/core";
-import React, { useCallback, useMemo, useState } from "react";
+import {
+	Collapse,
+	debounce,
+	IconButton,
+	MenuItem,
+	Select,
+	Slider,
+	TextField,
+	Tooltip,
+	Typography,
+} from "@material-ui/core";
+import React, { useCallback, useState } from "react";
+import { docco } from "react-syntax-highlighter/dist/esm/styles/hljs";
 import "missing-native-js-functions";
 import "./Template.scss";
-import AddIcon from "@material-ui/icons/Add";
 import { useEffect } from "react";
 import PaletteIcon from "@material-ui/icons/Palette";
+import SyntaxHighlighter from "react-syntax-highlighter";
+import ExpandLess from "@material-ui/icons/ExpandLess";
+import ExpandMore from "@material-ui/icons/ExpandMore";
 
 interface Element {
 	color?: boolean;
@@ -36,6 +49,7 @@ export function Template(opts: {
 	elements: Record<string, Element>;
 	state: Record<string, string>;
 	setState: React.Dispatch<React.SetStateAction<Record<string, string>>>;
+	codeExample?: string;
 }) {
 	var { elements, path, state, children } = opts;
 	const setState = (val) => {
@@ -44,6 +58,7 @@ export function Template(opts: {
 	};
 	const [preview, setPreview] = useState<string>();
 	const [colors, setWholeColors] = useState<Record<string, { type: string; value: string[] }>>({});
+	const [open, setOpen] = React.useState(window.innerWidth > 1400);
 
 	const setColors = (s: any) => setWholeColors({ ...state, ...s });
 
@@ -175,9 +190,28 @@ export function Template(opts: {
 			<div className="preview">
 				<a rel="noreferrer" target="_blank" href={seralizedPreview}>
 					<img alt="rendered preview" src={preview} />
-
-					{/* {decodeURIComponent(seralizedPreview)} */}
 				</a>
+				<IconButton style={{ background: "white" }} onClick={() => setOpen(!open)}>
+					{open ? <ExpandLess /> : <ExpandMore />}
+				</IconButton>
+
+				<Collapse in={open} timeout="auto" unmountOnExit style={{ maxWidth: "750px", background: "white" }}>
+					<br />
+					<a rel="noreferrer" target="_blank" href={seralizedPreview}>
+						{decodeURIComponent(seralizedPreview)}
+					</a>
+
+					<SyntaxHighlighter language="javascript" style={docco}>
+						{`const opts = new URLSearchParams();
+${Object.entries({ ...state, format: "png" })
+	.map(([key, value]) => `opts.set("${key}", "${value}")`)
+	.join("\n")}
+${opts.codeExample}
+
+const url = "https://image-manipulation.tk/${path}/?" + opts.toString();
+`}
+					</SyntaxHighlighter>
+				</Collapse>
 			</div>
 			<table id="elements">
 				<tr>
@@ -189,7 +223,7 @@ export function Template(opts: {
 				{renderElements(elements)}
 				{children}
 				<tr className="element">
-					<td class="name">Scale</td>
+					<td className="name">Scale</td>
 					<td className="field color"></td>
 					<td className="field">
 						<TextField
