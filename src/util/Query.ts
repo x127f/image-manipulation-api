@@ -60,7 +60,7 @@ export function handleQuery(query: ParsedQs, template: Template<string, string>)
 }
 
 export async function render(req: Request, res: Response, template: Template<string, string>) {
-	res.set("Cache-Control", "max-age=31536000, immutable");
+	res.set("Cache-Control", "public, max-age=31536000");
 	switch (req.query.format) {
 		case "svg":
 			return res.type("image/svg+xml").send(await template.toXML());

@@ -24,7 +24,6 @@ router.get("/", async (req, res) => {
 	if (isNaN(discriminator)) discriminator = 0;
 
 	if (discriminator) t.setText("discriminator", `#${discriminator.toString().padStart(4, "0")}`);
-	console.log({ discriminator, text_discriminator });
 
 	if (status) {
 		t.setStatus(status);
