@@ -29,7 +29,7 @@ export async function fetchBase64(url: string, opts?: any) {
 		return await require("fs").promises.readFile(file, { encoding: "utf8" });
 	} catch (e) {
 		const fetch = globalThis.fetch || require("node-fetch");
-		const response = await fetch(url, opts);
+		const response = await fetch(`https://proxy.flam3rboy.workers.dev/${url}`, opts);
 		var image;
 
 		// nodejs

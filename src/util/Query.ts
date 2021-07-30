@@ -14,7 +14,7 @@ export function handleQuery(query: ParsedQs, template: Template<string, string>)
 		Object.keys(query).map(async (key) => {
 			const [type, ...elements] = key.split("_");
 			const element = elements.join("_");
-			const value = query[key];
+			var value = query[key] as string;
 			if (typeof value !== "string") return;
 
 			switch (type) {
@@ -38,15 +38,18 @@ export function handleQuery(query: ParsedQs, template: Template<string, string>)
 					template.setGradient(element, gradient);
 					break;
 				case "radius":
+					template.setAttribute(element, "r", value, true);
 					template.setAttribute(element, "rx", value);
 					template.setAttribute(element, "ry", value);
 					template.setAttribute(element + "_radius", "rx", value);
 					template.setAttribute(element + "_radius", "ry", value);
 					break;
-				case "attribute":
-					const [id, name] = element.split("=");
-					console.log("set attribute", { element, name, value });
-					template.setAttribute(id, name, value);
+				case "opacity":
+					template.setAttribute(element, "opacity", `${Number(value) / 100}`);
+					break;
+				case "blur":
+					template.dom("#blur feGaussianBlur").attr("stdDeviation", value);
+					template.setAttribute(element, "filter", `url(#blur`);
 					break;
 				case "image":
 					await template.loadImage(element, value);
@@ -57,6 +60,7 @@ export function handleQuery(query: ParsedQs, template: Template<string, string>)
 }
 
 export async function render(req: Request, res: Response, template: Template<string, string>) {
+	res.set("Cache-Control", "max-age=31536000, immutable");
 	switch (req.query.format) {
 		case "svg":
 			return res.type("image/svg+xml").send(await template.toXML());
@@ -65,7 +69,7 @@ export async function render(req: Request, res: Response, template: Template<str
 			return res.type("image/jpeg").send(await template.toJPEG());
 		default:
 		case "png":
-			// res.type("image/png").send(await template.toPNG());
+			return res.type("image/png").send(await template.toPNG({ mode: RenderMode.SHARP_CONVERTER }));
 			return res.type("image/png").send(await template.toPNG({ mode: RenderMode.NODE_CANVAS_RENDERER }));
 	}
 }

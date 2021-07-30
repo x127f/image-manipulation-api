@@ -1,3 +1,4 @@
+/* eslint-disable eqeqeq */
 // @ts-nocheck
 import {
 	Collapse,
@@ -27,6 +28,7 @@ interface Element {
 	select?: string[];
 	image?: boolean;
 	radius?: number;
+	blur?: number;
 	attributes?: Record<string, Element>;
 }
 
@@ -72,7 +74,7 @@ export function Template(opts: {
 	function updateState() {
 		var p = new URLSearchParams();
 		for (let key in state) {
-			if (!state[key]) continue;
+			if (!state[key] && state[key] !== 0) continue;
 			p.set(key, state[key]);
 		}
 
@@ -142,7 +144,24 @@ export function Template(opts: {
 					{fields.radius && (
 						<>
 							<Typography gutterBottom>Radius</Typography>
-							<Slider defaultValue={0} onChange={(_, val) => setState({ ["radius_" + name]: val })} />
+							<Slider
+								min={fields.radius?.min || 0}
+								max={fields.radius?.max || 100}
+								defaultValue={0}
+								onChange={(_, val) => setState({ ["radius_" + name]: val })}
+							/>
+						</>
+					)}
+					{fields.opacity && (
+						<>
+							<Typography gutterBottom>Opacity</Typography>
+							<Slider defaultValue={0} onChange={(_, val) => setState({ ["opacity_" + name]: val })} />
+						</>
+					)}
+					{fields.blur && (
+						<>
+							<Typography gutterBottom>Blur</Typography>
+							<Slider defaultValue={0} onChange={(_, val) => setState({ ["blur_" + name]: val })} />
 						</>
 					)}
 				</td>
@@ -196,7 +215,12 @@ export function Template(opts: {
 					{open ? <ExpandLess /> : <ExpandMore />}
 				</IconButton>
 
-				<Collapse in={open} timeout="auto" unmountOnExit style={{ maxWidth: "750px", background: "white" }}>
+				<Collapse
+					in={open}
+					timeout="auto"
+					unmountOnExit
+					style={{ maxWidth: "min(750px, 90vw)", background: "white" }}
+				>
 					<br />
 					<a rel="noreferrer" target="_blank" href={seralizedPreview}>
 						{decodeURIComponent(seralizedPreview)}
@@ -205,7 +229,7 @@ export function Template(opts: {
 					<SyntaxHighlighter language="javascript" style={docco}>
 						{`const opts = new URLSearchParams();
 ${Object.entries({ ...state, format: "png" })
-	.filter(([_, val]) => !!val)
+	.filter(([_, val]) => val != undefined)
 	.map(([key, value]) => `opts.set("${key}", "${value}")`)
 	.join("\n")}
 ${opts.codeExample}

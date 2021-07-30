@@ -42,21 +42,26 @@ export const elements = {
 	},
 	avatar: {
 		image: true,
+		radius: true,
+	},
+	avatar_circle: {
+		color: true,
+		radius: {
+			min: 0,
+			max: 20,
+		},
 	},
 	status: {
 		select: ["offline", "online", "online-mobile", "idle", "dnd", "streaming", "no-status"],
-	},
-	status_background: {
-		attributes: {
-			fill: {
-				select: ["transparent", "black"],
-			},
-		},
 	},
 	background: {
 		color: true,
 		image: true,
 		radius: true,
+	},
+	back: {
+		color: true,
+		opacity: true,
 	},
 	label_rank: {
 		text: true,
@@ -111,16 +116,16 @@ export default function RankCard() {
 					<td className="field"></td>
 				</tr>
 				<tr className="element">
-					<td className="name">Opacity</td>
+					<td className="name">Status background</td>
 					<td className="field color"></td>
 					<td className="field">
-						<TextField
-							InputProps={{ inputProps: { min: 0, max: 100 } }}
-							defaultValue="0"
-							className="element"
-							type="number"
-							onChange={(e) => setState({ opacity: e.target.value })}
-						></TextField>
+						<Select
+							defaultValue="center"
+							onChange={(e) => setState({ color_status_background: e.target.value })}
+						>
+							<MenuItem value={"transparent"}>Transparent</MenuItem>
+							<MenuItem value={"black"}>Black</MenuItem>
+						</Select>
 					</td>
 					<td className="field"></td>
 				</tr>

@@ -2,65 +2,65 @@
 <svg viewBox="0 0 1000 300" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:bx="https://boxy-svg.com">
   <defs>
     <mask id="mask-status-online-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <rect fill="white" x="0" y="0" width="1" height="1" rx="0.1875" ry="0.125"/>
-      <rect fill="black" x="0.125" y="0.16666666666666666" width="0.75" height="0.5"/>
-      <ellipse fill="black" cx="0.5" cy="0.8333333333333334" rx="0.125" ry="0.08333333333333333"/>
+      <rect fill="white" x="0" y="0" width="1" height="1" rx="0.1875" ry="0.125" />
+      <rect fill="black" x="0.125" y="0.16666666666666666" width="0.75" height="0.5" />
+      <ellipse fill="black" cx="0.5" cy="0.8333333333333334" rx="0.125" ry="0.08333333333333333" />
     </mask>
     <mask id="mask-status-online" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
     </mask>
     <mask id="mask-status-idle" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
-      <circle fill="black" cx="0.25" cy="0.25" r="0.375"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
+      <circle fill="black" cx="0.25" cy="0.25" r="0.375" />
     </mask>
     <mask id="mask-status-dnd" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
-      <rect fill="black" x="0.125" y="0.375" width="0.75" height="0.25" rx="0.125" ry="0.125"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
+      <rect fill="black" x="0.125" y="0.375" width="0.75" height="0.25" rx="0.125" ry="0.125" />
     </mask>
     <mask id="mask-status-offline" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
-      <circle fill="black" cx="0.5" cy="0.5" r="0.25"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
+      <circle fill="black" cx="0.5" cy="0.5" r="0.25" />
     </mask>
     <mask id="mask-status-streaming" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
-      <polygon fill="black" points="0.35,0.25 0.78301275,0.5 0.35,0.75"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
+      <polygon fill="black" points="0.35,0.25 0.78301275,0.5 0.35,0.75" />
     </mask>
     <mask id="mask-avatar-nostatus" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
     </mask>
     <mask id="mask-avatar" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
-      <circle fill="black" cx="0.85" cy="0.85" r="0.175"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
+      <circle fill="black" cx="0.85" cy="0.85" r="0.175" />
     </mask>
     <mask id="mask-avatar-mobile" maskContentUnits="objectBoundingBox" viewBox="0 0 1 1">
-      <circle fill="white" cx="0.5" cy="0.5" r="0.5"/>
-      <rect fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667"/>
+      <circle fill="white" cx="0.5" cy="0.5" r="0.5" />
+      <rect fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667" />
     </mask>
-    <symbol id="status-streaming">
-      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)"/>
+    <symbol class="status" id="status-streaming">
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)" />
     </symbol>
-    <symbol id="status-online">
-      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online)"/>
+    <symbol class="status" id="status-online">
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online)" />
     </symbol>
-    <symbol id="status-offline">
-      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(214, 9.9%, 50.4%)" mask="url(#mask-status-offline)"/>
+    <symbol class="status" id="status-offline">
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(214, 9.9%, 50.4%)" mask="url(#mask-status-offline)" />
     </symbol>
-    <symbol id="status-dnd">
-      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(359,  82.6%, 59.4%)" mask="url(#mask-status-dnd)"/>
+    <symbol class="status" id="status-dnd">
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(359,  82.6%, 59.4%)" mask="url(#mask-status-dnd)" />
     </symbol>
-    <symbol id="status-online-mobile">
-      <rect width="30" height="45" x="35" y="20" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online-mobile)"/>
+    <symbol class="status" id="status-online-mobile">
+      <rect width="30" height="45" x="35" y="20" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online-mobile)" />
     </symbol>
-    <symbol id="status-idle">
-      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)"/>
+    <symbol class="status" id="status-idle">
+      <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)" />
     </symbol>
   </defs>
   <g class="text_color" font-family="Arial" font-size="35" fill="white">
-    <rect id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="1000" height="300"/>
+    <rect id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="1000" height="300" />
 
     <svg x="50%" y="40%" style="overflow: auto" xmlns:xlink="http://www.w3.org/1999/xlink">
-      <image id="avatar" transform="translate(-75,-75)" height="150" width="150" mask="url(#mask-avatar)" href="./avatar.png"/>
-      <use id="status" href="#status-online"/>
+      <image id="avatar" transform="translate(-75,-75)" height="150" width="150" mask="url(#mask-avatar)" href="./avatar.png" />
+      <use class="status" id="status" href="#status-online" />
     </svg>
 
     <text x="5%" y="30%">
@@ -83,7 +83,7 @@
       <tspan font-size="30" id="max">/ 100 XP</tspan>
     </text>
 
-    <rect id="progressBackground" x="5%" y="80%" width="90%" height="10%" fill="#43464e" rx="15" ry="15"/>
-    <rect id="progress" x="5%" y="80%" width="45%" height="10%" class="primary_color" fill="#5865F2" rx="15" ry="15"/>
+    <rect id="progressBackground" x="5%" y="80%" width="90%" height="10%" fill="#43464e" rx="15" ry="15" />
+    <rect id="progress" x="5%" y="80%" width="45%" height="10%" class="primary_color" fill="#5865F2" rx="15" ry="15" />
   </g>
 </svg>

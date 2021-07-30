@@ -36,22 +36,22 @@
       <rect class="mask_avatar" fill="white" x="0" width="1" height="1" y="0" rx="0.5" />
       <rect class="status_background" fill="black" x="0.6666666666666666" y="0.5666666666666667" width="0.3333333333333333" height="0.43333333333333335" rx="0.08666666666666667" ry="0.08666666666666667"></rect>
     </mask>
-    <symbol id="status-streaming">
+    <symbol class="status" id="status-streaming">
       <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(262, 46.8%, 39.8%)" mask="url(#mask-status-streaming)"></rect>
     </symbol>
-    <symbol id="status-online">
+    <symbol class="status" id="status-online">
       <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online)"></rect>
     </symbol>
-    <symbol id="status-offline">
+    <symbol class="status" id="status-offline">
       <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(214, 9.9%, 50.4%)" mask="url(#mask-status-offline)"></rect>
     </symbol>
-    <symbol id="status-dnd">
+    <symbol class="status" id="status-dnd">
       <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(359,  82.6%, 59.4%)" mask="url(#mask-status-dnd)"></rect>
     </symbol>
-    <symbol id="status-online-mobile">
+    <symbol class="status" id="status-online-mobile">
       <rect width="30" height="45" x="35" y="20" fill="hsl(139, 47.3%, 43.9%)" mask="url(#mask-status-online-mobile)"></rect>
     </symbol>
-    <symbol id="status-idle">
+    <symbol class="status" id="status-idle">
       <rect width="30" height="30" x="37.5" y="37.5" fill="hsl(38, 95.7%, 54.1%)" mask="url(#mask-status-idle)"></rect>
     </symbol>
     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -62,31 +62,44 @@
     <clipPath id="clip">
       <rect class="background_radius" x="0" y="0" width="100%" height="100%" />
     </clipPath>
+
+
+    <filter id="blur">
+      <feGaussianBlur stdDeviation="10" />
+    </filter>
+
+    <mask id="avatar_circle_clip">
+      <circle id="mask_avatar_circle" cx="0" cy="0" class="avatar_circle" r="80" fill="white"></circle>
+      <circle cx="0" cy="0" r="75" fill="black"></circle>
+    </mask>
+
   </defs>
   <g class="text_color" font-family="Arial" font-size="35" fill="white">
     <rect clip-path="url(#clip)" class="background_radius" id="background" fill="rgb(47, 49, 54)" y="0" x="0" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" />
+    <rect id="back" clip-path="url(#clip)" class="background_radius" opacity="0" fill="#000000" y="0" x="0" width="100%" height="100%" />
 
     <svg x="78%" y="50%" style="overflow: auto">
+      <circle transform="translate(75,0)" mask="url(#avatar_circle_clip)" cx="0" cy="0" class="avatar_circle" r="75" fill="black"></circle>
       <image id="avatar" transform="translate(0,-75)" height="150" width="150" mask="url(#mask-avatar)" href="./avatar.png" />
-      <use x="75" y="0" id="status" href="#status-online" />
+      <use x="75" y="0" class="status" id="status" href="#status-online" />
     </svg>
 
-    <text x="5%" y="20%" dominant-baseline="middle">
+    <text x="5%" y="25%">
       <tspan id="label_level">Level</tspan>
       <tspan id="level" class="primary_color" fill="#2d90ff">1</tspan>
     </text>
 
-    <text x="70%" y="20%" text-anchor="end" dominant-baseline="middle">
+    <text x="70%" y="25%" text-anchor="end">
       <tspan id="label_rank">Rank</tspan>
       <tspan id="rank" class="primary_color" fill="#2d90ff">#1</tspan>
     </text>
 
-    <text x="5%" y="80%" dominant-baseline="middle">
+    <text x="5%" y="87%">
       <tspan id="username">Flam3rboy</tspan>
       <tspan id="discriminator" class="primary_color" fill="#2d90ff">#0001</tspan>
     </text>
 
-    <text x="70%" y="80%" text-anchor="end" dominant-baseline="middle">
+    <text x="70%" y="87%" text-anchor="end">
       <tspan class="primary_color" fill="#2d90ff" id="xp">50</tspan>
       <tspan font-size="30" id="max">
         / 100 XP

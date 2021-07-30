@@ -137,8 +137,10 @@ export class Template<T extends string, G extends string> {
 		this.getElement(id).text(text);
 	}
 
-	setAttribute(id: T | G, name: string, value: string) {
-		this.getElement(id).attr(name, value);
+	setAttribute(id: T | G, name: string, value: string, onlySetIfExists = false) {
+		const element = this.getElement(id);
+		if (onlySetIfExists && !element.attr(name)) return;
+		element.attr(name, value);
 	}
 
 	toSharp() {
