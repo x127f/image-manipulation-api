@@ -53,6 +53,7 @@ export function Template(opts: {
 	state: Record<string, string>;
 	setState: React.Dispatch<React.SetStateAction<Record<string, string>>>;
 	codeExample?: string;
+	codeExampleAfter?: string;
 }) {
 	var { elements, path, state, children } = opts;
 	const setState = (val) => {
@@ -227,15 +228,16 @@ export function Template(opts: {
 					</a>
 
 					<SyntaxHighlighter language="javascript" style={docco}>
-						{`const opts = new URLSearchParams();
+						{`// © Copyright 2021-present, Flam3rboy (https://image-manipulation.tk/)
+const opts = new URLSearchParams();
 ${Object.entries({ ...state, format: "png" })
 	.filter(([_, val]) => val != undefined)
 	.map(([key, value]) => `opts.set("${key}", "${value}")`)
 	.join("\n")}
-${opts.codeExample}
+${opts.codeExample || ""}
 
 const url = "https://image-manipulation.tk/${path}/?" + opts.toString();
-`}
+${opts.codeExampleAfter || ""}`}
 					</SyntaxHighlighter>
 				</Collapse>
 			</div>

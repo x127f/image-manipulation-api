@@ -88,6 +88,10 @@ opts.set("text_username", message.author.username)
 // Discriminator
 opts.set("text_discriminator", message.author.discriminator)
 `;
+const codeExampleAfter = `
+const card = new MessageAttachment(url, "card.png");
+message.channel.send(card);
+`;
 
 export default function RankCard() {
 	const [state, setState] = useBetterState({
@@ -102,6 +106,7 @@ export default function RankCard() {
 				state={state}
 				setState={setState}
 				codeExample={codeExample}
+				codeExampleAfter={codeExampleAfter}
 			>
 				<tr className="element">
 					<td className="name">Type</td>
